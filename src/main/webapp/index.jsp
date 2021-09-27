@@ -2,12 +2,18 @@
 <!DOCTYPE html>
 <html>
 <head>
-    <title>JSP - Hello World</title>
+    <title>Progetto Tecnologie Informatiche per il Web</title>
 </head>
 <body>
-<h1><%= "Hello World!" %>
+<h1><%= "Progetto Tecnologie Informatiche per il Web"%>
 </h1>
 <br/>
-<a href="hello-servlet">Hello Servlet</a>
+<form action="LoginHandler" method="post">
+    <label for="username">Username:</label><br>
+    <input type="text" id="username" name="username" required><br>
+    <label for="passwd">Last name:</label><br>
+    <input type="password" id="passwd" name="passwd" required>
+    <input type="submit" value="Invia" >
+</form>
 </body>
 </html>
