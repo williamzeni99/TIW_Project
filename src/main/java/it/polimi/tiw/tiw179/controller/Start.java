@@ -26,7 +26,7 @@ public class Start extends HttpServlet {
 
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-        String path="/WEB-INF/templates/LoginWelcome.html";
+        String path="/WEB-INF/templates/LoginPage.html";
         WebContext ctx= new WebContext(request, response, getServletContext(), request.getLocale());
         templateEngine.process(path,ctx, response.getWriter());
     }

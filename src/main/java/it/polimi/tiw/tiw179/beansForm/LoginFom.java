@@ -1,9 +1,12 @@
 package it.polimi.tiw.tiw179.beansForm;
 
+import it.polimi.tiw.tiw179.ErrorMessage;
+
 public class LoginFom {
     private String username;
-    private String passwd;
-    private static String errorMessageUser= "Username is required";
+
+    private ErrorMessage errorMessageUser= null;
+    private ErrorMessage errorMessagePasswd= null;
 
     public LoginFom(){
         super();
@@ -11,14 +14,23 @@ public class LoginFom {
 
     public LoginFom(String username, String passwd){
         this.username=username;
-        this.passwd=passwd;
+        if(username==null){
+            errorMessageUser=ErrorMessage.UsernameRequired;
+        }
+        if(passwd==null){
+            errorMessagePasswd=ErrorMessage.PasswdRequired;
+        }
     }
 
     public boolean isFormValid(){
-        return username!=null && !username.isEmpty();
+        return errorMessageUser!=null && errorMessagePasswd!=null;
     }
 
-    public String getErrorMessageUser() {
-        return errorMessageUser;
+    public void setErrorMessagePasswd(ErrorMessage errorMessagePasswd) {
+        this.errorMessagePasswd = errorMessagePasswd;
+    }
+
+    public void setErrorMessageUser(ErrorMessage errorMessageUser) {
+        this.errorMessageUser = errorMessageUser;
     }
 }

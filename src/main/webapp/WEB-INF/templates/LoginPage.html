@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+
+<head>
+    <meta content="text/html" charset="UTF-8">
+    <title>TIW project- HTML puro</title>
+</head>
+
+
+<body>
+<h1 th:text="#{home.welcome}"> WELCOME</h1>
+<p th:utext="#{home.description}"> Description </p>
+
+<div align="center">
+    <form name="loginform" method="post" th:action="/LoginHandler" >
+        <table style="with: 100%">
+            <tr>
+                <td th:text="#{login.user}">User</td>
+                <td><input type="text" name="username"  required/></td>
+            </tr>
+            <tr>
+                <td>Password</td>
+                <td><input type="password" name="password" required/></td>
+            </tr>
+
+        </table>
+        <input type="submit" value="Submit" th:value="#{login.send}"/>
+    </form>
+</div>
+
+</body>
+</html>
