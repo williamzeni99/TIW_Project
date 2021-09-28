@@ -1,19 +1,22 @@
-<%@ page contentType="text/html; charset=UTF-8" pageEncoding="UTF-8" %>
-<!DOCTYPE html>
+<%--
+  Created by IntelliJ IDEA.
+  User: williamzeni
+  Date: 9/28/21
+  Time: 12:54 PM
+  To change this template use File | Settings | File Templates.
+--%>
+<%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <html>
 <head>
-    <title>Progetto Tecnologie Informatiche per il Web</title>
+    <title>TiwProject</title>
 </head>
 <body>
-<h1><%= "Progetto Tecnologie Informatiche per il Web"%>
-</h1>
-<br/>
-<form action="LoginHandler" method="post">
-    <label for="username">Username:</label><br>
-    <input type="text" id="username" name="username" required><br>
-    <label for="passwd">Last name:</label><br>
-    <input type="password" id="passwd" name="passwd" required>
-    <input type="submit" value="Invia" >
-</form>
+
+<h4>Progetto HTML puro</h4>
+<p> <a href="${pageContext.request.contextPath}/Start">Click here</a> </p>
+
+<h4>Progetto JavaScript</h4>
+<p> <a href="${pageContext.request.contextPath}/Start">Click here</a> </p>
+
 </body>
 </html>
