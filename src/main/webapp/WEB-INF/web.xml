@@ -9,7 +9,7 @@
     </context-param>
     <context-param>
         <param-name>dbUser</param-name>
-        <param-value>williamzeni</param-value>
+        <param-value>root</param-value>
     </context-param>
     <context-param>
         <param-name>dbPasswd</param-name>
@@ -17,6 +17,9 @@
     </context-param>
     <context-param>
         <param-name>dbDriver</param-name>
-        <param-value>com.mysql.jdbc.Driver</param-value>
+        <param-value>com.mysql.cj.jdbc.Driver</param-value>
     </context-param>
+    <welcome-file-list>
+        <welcome-file>index.html</welcome-file>
+    </welcome-file-list>
 </web-app>

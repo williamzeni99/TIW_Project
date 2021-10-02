@@ -4,9 +4,10 @@ import it.polimi.tiw.tiw179.ErrorMessage;
 
 public class LoginFom {
     private String username;
+    private ErrorMessage error;
 
-    private ErrorMessage errorMessageUser= null;
-    private ErrorMessage errorMessagePasswd= null;
+    private boolean UserError= false;
+    private boolean PasswdError = false;
 
     public LoginFom(){
         super();
@@ -15,22 +16,35 @@ public class LoginFom {
     public LoginFom(String username, String passwd){
         this.username=username;
         if(username==null){
-            errorMessageUser=ErrorMessage.UsernameRequired;
+            UserError=true;
+
         }
         if(passwd==null){
-            errorMessagePasswd=ErrorMessage.PasswdRequired;
+            PasswdError =true;
         }
+    }
+
+    public String getUsername() {
+        return username;
+    }
+
+    public String getErrorMessage(){
+        return error.getMessage();
+    }
+
+    public void setError(ErrorMessage error) {
+        this.error = error;
     }
 
     public boolean isFormValid(){
-        return errorMessageUser!=null && errorMessagePasswd!=null;
+        return !UserError && !PasswdError;
     }
 
-    public void setErrorMessagePasswd(ErrorMessage errorMessagePasswd) {
-        this.errorMessagePasswd = errorMessagePasswd;
+    public boolean checkUserError() {
+        return UserError;
     }
 
-    public void setErrorMessageUser(ErrorMessage errorMessageUser) {
-        this.errorMessageUser = errorMessageUser;
+    public boolean checkPasswdError() {
+        return PasswdError;
     }
 }

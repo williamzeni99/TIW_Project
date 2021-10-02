@@ -1,5 +1,6 @@
 package it.polimi.tiw.tiw179.controller;
 
+import it.polimi.tiw.tiw179.Utilities;
 import org.thymeleaf.TemplateEngine;
 import org.thymeleaf.context.WebContext;
 import org.thymeleaf.templatemode.TemplateMode;
@@ -16,17 +17,12 @@ public class Start extends HttpServlet {
 
     @Override
     public void init() throws ServletException {
-        ServletContext servletContext= getServletContext();
-        ServletContextTemplateResolver templateResolver= new ServletContextTemplateResolver(servletContext);
-        templateResolver.setTemplateMode(TemplateMode.HTML);
-        this.templateEngine= new TemplateEngine();
-        templateEngine.setTemplateResolver(templateResolver);
-        templateResolver.setSuffix(".html");
+        templateEngine= Utilities.createTemplateEngine(getServletContext());
     }
 
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-        String path="/WEB-INF/templates/LoginPage.html";
+        String path="/LoginPage.html";
         WebContext ctx= new WebContext(request, response, getServletContext(), request.getLocale());
         templateEngine.process(path,ctx, response.getWriter());
     }

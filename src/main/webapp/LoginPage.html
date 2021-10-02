@@ -8,11 +8,11 @@
 
 
 <body>
-<h1 th:text="#{home.welcome}"> WELCOME</h1>
-<p th:utext="#{home.description}"> Description </p>
 
 <div align="center">
-    <form name="loginform" method="post" th:action="/LoginHandler" >
+    <h1 th:text="#{home.welcome}"> WELCOME</h1>
+    <p th:utext="#{home.description}"> Description </p>
+    <form  name="LoginForm" method="post" action="LoginHandler" >
         <table style="with: 100%">
             <tr>
                 <td th:text="#{login.user}">User</td>
@@ -22,10 +22,12 @@
                 <td>Password</td>
                 <td><input type="password" name="password" required/></td>
             </tr>
-
+            <tr>
+            </tr>
         </table>
         <input type="submit" value="Submit" th:value="#{login.send}"/>
     </form>
+    <p th:text="${errorMsg}" ></p>
 </div>
 
 </body>

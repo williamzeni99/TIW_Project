@@ -6,7 +6,12 @@ import org.apache.commons.codec.digest.DigestUtils;
 import java.sql.*;
 
 public class UserDAO {
-    Connection connection;
+    private Connection connection;
+    public final static String usernameDB="username";
+    public final static String nameDB="Name";
+    public final static String surnameDB="Surname";
+    public final static String passwordDB="passwd";
+
 
     public UserDAO(Connection connection){
         this.connection=connection;
@@ -15,7 +20,7 @@ public class UserDAO {
     public boolean findUser(String username) throws SQLException {
         boolean status = false;
 
-        PreparedStatement preparedStatement = connection.prepareStatement("select * from User where username = ?");
+        PreparedStatement preparedStatement = connection.prepareStatement("select * from User where "+usernameDB+" = ?");
         preparedStatement.setString(1, username);
         ResultSet rs = preparedStatement.executeQuery();
         status = rs.next();
@@ -23,15 +28,18 @@ public class UserDAO {
         return status;
     }
 
-    public boolean match(String username, String passwd) throws SQLException {
-        boolean status = false;
+    public User match(String username, String passwd) throws SQLException {
+        User user=null;
         String passwdSha256= DigestUtils.sha256Hex(passwd);
-        PreparedStatement preparedStatement = connection.prepareStatement("select * from User where username = ? and password = ? ");
+        PreparedStatement preparedStatement = connection.prepareStatement("select * from User where "+usernameDB+" = ? and "+passwordDB+" = ? ");
         preparedStatement.setString(1, username);
         preparedStatement.setString(2, passwdSha256);
         ResultSet rs = preparedStatement.executeQuery();
-        status = rs.next();
+        if(rs.next()){
+            //user=new User(username, rs.getString(nameDB), rs.getString(surnameDB));
+            user= new User(username, "nome", "cognome"); // TODO: 10/1/21 aggiungere caselle al database
+        }
 
-        return status;
+        return user;
     }
 }

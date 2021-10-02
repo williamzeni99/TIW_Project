@@ -1,21 +1,25 @@
 package it.polimi.tiw.tiw179.beans;
 
-import org.apache.commons.codec.digest.DigestUtils;
-
 public class User {
-    private String username;
-    private String passwd;
+    private final String username;
+    private final String name;
+    private final String surname;
 
-    public User(String username, String passwd){
+    public User(String username, String name, String surname){
         this.username=username;
-        this.passwd= DigestUtils.sha256Hex(passwd);
-    }
-
-    public String getPasswd() {
-        return passwd;
+        this.name = name;
+        this.surname = surname;
     }
 
     public String getUsername() {
         return username;
+    }
+
+    public String getName() {
+        return name;
+    }
+
+    public String getSurname() {
+        return surname;
     }
 }
