@@ -1,13 +1,11 @@
 package it.polimi.tiw.tiw179;
 
 import org.thymeleaf.TemplateEngine;
-import org.thymeleaf.context.WebContext;
 import org.thymeleaf.templatemode.TemplateMode;
 import org.thymeleaf.templateresolver.ServletContextTemplateResolver;
 
 import javax.servlet.ServletContext;
 import javax.servlet.UnavailableException;
-import java.io.IOException;
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.SQLException;
@@ -24,9 +22,6 @@ public class Utilities {
         return templateEngine;
     }
 
-    public static void ProcessTemplate(String templatePath, WebContext ctx, TemplateEngine templateEngine) throws IOException {
-        templateEngine.process(templatePath,ctx,ctx.getResponse().getWriter());
-    }
 
     public static Connection MakeDBConnection(ServletContext servletContext) throws UnavailableException {
         Connection connection=null;

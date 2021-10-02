@@ -71,12 +71,10 @@ public class LoginHandler extends HttpServlet {
             }
         }
 
-        //final WebContext ctx = new WebContext(request, response, getServletContext(), request.getLocale());
-        //ctx.setVariable("errorMsg", loginFom.getErrorMessage());
-        //Utilities.ProcessTemplate("/LoginPage.html", ctx,templateEngine);
         ServletContext servletContext = getServletContext();
         final WebContext ctx = new WebContext(request, response, servletContext, request.getLocale());
         ctx.setVariable("errorMsg", loginFom.getErrorMessage());
+        ctx.setVariable("username", loginFom.getUsername());
         String path = "/LoginPage.html";
         templateEngine.process(path, ctx, response.getWriter());
 

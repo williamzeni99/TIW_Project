@@ -10,16 +10,4 @@ public class User {
         this.name = name;
         this.surname = surname;
     }
-
-    public String getUsername() {
-        return username;
-    }
-
-    public String getName() {
-        return name;
-    }
-
-    public String getSurname() {
-        return surname;
-    }
 }

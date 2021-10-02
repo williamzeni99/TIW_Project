@@ -16,7 +16,7 @@
         <table style="with: 100%">
             <tr>
                 <td th:text="#{login.user}">User</td>
-                <td><input type="text" name="username"  required/></td>
+                <td><input type="text" name="username" th:value="${username}" required /></td>
             </tr>
             <tr>
                 <td>Password</td>
@@ -27,7 +27,7 @@
         </table>
         <input type="submit" value="Submit" th:value="#{login.send}"/>
     </form>
-    <p th:text="${errorMsg}" ></p>
+    <p th:text="${errorMsg}" style="color: red"></p>
 </div>
 
 </body>

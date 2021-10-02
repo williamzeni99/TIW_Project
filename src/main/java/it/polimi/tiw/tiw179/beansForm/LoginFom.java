@@ -9,17 +9,13 @@ public class LoginFom {
     private boolean UserError= false;
     private boolean PasswdError = false;
 
-    public LoginFom(){
-        super();
-    }
-
     public LoginFom(String username, String passwd){
         this.username=username;
-        if(username==null){
+        if(username==null || username.isEmpty()){
             UserError=true;
 
         }
-        if(passwd==null){
+        if(passwd==null || passwd.isEmpty()){
             PasswdError =true;
         }
     }
@@ -47,4 +43,6 @@ public class LoginFom {
     public boolean checkPasswdError() {
         return PasswdError;
     }
+
+
 }

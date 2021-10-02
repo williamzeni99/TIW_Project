@@ -22,13 +22,12 @@ public class Start extends HttpServlet {
 
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-        String path="/LoginPage.html";
-        WebContext ctx= new WebContext(request, response, getServletContext(), request.getLocale());
-        templateEngine.process(path,ctx, response.getWriter());
     }
 
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-
+        String path="/LoginPage.html";
+        WebContext ctx= new WebContext(request, response, getServletContext(), request.getLocale());
+        templateEngine.process(path,ctx, response.getWriter());
     }
 }
