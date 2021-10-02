@@ -22,4 +22,13 @@
     <welcome-file-list>
         <welcome-file>/index.html</welcome-file>
     </welcome-file-list>
+
+    <filter>
+        <filter-name>UserChecker</filter-name>
+        <filter-class>it.polimi.tiw.tiw179.filters.UserChecker</filter-class>
+    </filter>
+    <filter-mapping>
+        <filter-name>UserChecker</filter-name>
+        <servlet-name>LoadHome</servlet-name>
+    </filter-mapping>
 </web-app>

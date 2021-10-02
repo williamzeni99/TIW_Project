@@ -4,16 +4,17 @@
 <head>
     <meta content="text/html" charset="UTF-8">
     <title>TIW project- HTML puro</title>
+    <link rel="stylesheet" type="text/css" media="all" href="/CSS/mystile.css"/>
 </head>
 
 
 <body>
 
-<div align="center">
+<div class="divtry">
     <h1 th:text="#{home.welcome}"> WELCOME</h1>
     <p th:utext="#{home.description}"> Description </p>
     <form  name="LoginForm" method="post" action="LoginHandler" >
-        <table style="with: 100%">
+        <table>
             <tr>
                 <td th:text="#{login.user}">User</td>
                 <td><input type="text" name="username" th:value="${username}" required /></td>

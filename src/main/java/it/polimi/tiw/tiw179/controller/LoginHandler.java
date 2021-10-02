@@ -18,9 +18,9 @@ import java.sql.SQLException;
 @WebServlet(name = "LoginHandler", value = "/LoginHandler")
 public class LoginHandler extends HttpServlet {
     private Connection connection;
+    private TemplateEngine templateEngine;
     private static final String parameterName="username";
     private static final String parameterPass="password";
-    private TemplateEngine templateEngine;
 
     @Override
     public void init() throws ServletException {
@@ -30,7 +30,9 @@ public class LoginHandler extends HttpServlet {
 
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-        //
+        String path="/WEB-INF/templates/LoginPage.html";
+        WebContext ctx= new WebContext(request, response, getServletContext(), request.getLocale());
+        templateEngine.process(path,ctx, response.getWriter());
     }
 
     @Override
@@ -75,8 +77,18 @@ public class LoginHandler extends HttpServlet {
         final WebContext ctx = new WebContext(request, response, servletContext, request.getLocale());
         ctx.setVariable("errorMsg", loginFom.getErrorMessage());
         ctx.setVariable("username", loginFom.getUsername());
-        String path = "/LoginPage.html";
+        String path = "/WEB-INF/templates/LoginPage.html";
         templateEngine.process(path, ctx, response.getWriter());
+    }
 
+    @Override
+    public void destroy() {
+        if(connection!=null){
+            try {
+                connection.close();
+            } catch (SQLException e) {
+                e.printStackTrace();
+            }
+        }
     }
 }
