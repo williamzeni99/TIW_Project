@@ -1,12 +1,19 @@
 <!DOCTYPE html>
-<html lang="en">
+<html xmlns:th="http://www.thymeleaf.org">
 <head>
-    <meta charset="UTF-8">
+    <meta content="text/html" charset="UTF-8">
     <title>HomePage</title>
 </head>
 <body>
 
-<h1>HOME PAGE</h1>
+<h1 th:text="#{start.Welcome}">Welcome text</h1>
+<div>
+    <span th:text="#{start.logintext}">Entering text</span>
+    <span th:text="${session.user.name}"></span>
+    <span th:text="${session.user.surname}"></span>
+    <p></p>
+</div>
+<h3> Topic</h3>
 
 </body>
 </html>

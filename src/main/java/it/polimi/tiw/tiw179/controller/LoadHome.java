@@ -2,6 +2,7 @@ package it.polimi.tiw.tiw179.controller;
 
 import it.polimi.tiw.tiw179.Utilities;
 import org.thymeleaf.TemplateEngine;
+import org.thymeleaf.context.WebContext;
 
 import javax.servlet.*;
 import javax.servlet.http.*;
@@ -22,11 +23,15 @@ public class LoadHome extends HttpServlet {
 
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-
+        WebContext ctx= new WebContext(request,response,getServletContext(),response.getLocale());
+        String path="/WEB-INF/templates/HomePage.html";
+        templateEngine.process(path,ctx,response.getWriter());
     }
 
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-
+        WebContext ctx= new WebContext(request,response,getServletContext(),response.getLocale());
+        String path="/WEB-INF/templates/HomePage.html";
+        templateEngine.process(path,ctx,response.getWriter());
     }
 }

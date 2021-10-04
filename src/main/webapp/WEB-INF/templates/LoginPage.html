@@ -4,17 +4,16 @@
 <head>
     <meta content="text/html" charset="UTF-8">
     <title>TIW project- HTML puro</title>
-    <link rel="stylesheet" type="text/css" media="all" href="/CSS/mystile.css"/>
+    <link rel="stylesheet" type="text/css" media="all" th:href="@{/CSS/mystile.css}"/>
 </head>
 
 
 <body>
-
-<div class="divtry">
-    <h1 th:text="#{home.welcome}"> WELCOME</h1>
-    <p th:utext="#{home.description}"> Description </p>
+<h1 th:text="#{home.welcome}"> WELCOME</h1>
+<p th:utext="#{home.description}"> Description </p>
+<div class="divbox">
     <form  name="LoginForm" method="post" action="LoginHandler" >
-        <table>
+        <table th:class="divbox">
             <tr>
                 <td th:text="#{login.user}">User</td>
                 <td><input type="text" name="username" th:value="${username}" required /></td>
@@ -28,7 +27,7 @@
         </table>
         <input type="submit" value="Submit" th:value="#{login.send}"/>
     </form>
-    <p th:text="${errorMsg}" style="color: red"></p>
+    <p th:text="${errorMsg}" th:class="errorText"></p>
 </div>
 
 </body>

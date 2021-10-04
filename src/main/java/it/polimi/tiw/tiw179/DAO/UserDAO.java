@@ -8,8 +8,8 @@ import java.sql.*;
 public class UserDAO {
     private Connection connection;
     public final static String usernameDB="username";
-    public final static String nameDB="Name";
-    public final static String surnameDB="Surname";
+    public final static String nameDB="name";
+    public final static String surnameDB="surname";
     public final static String passwordDB="passwd";
 
 
@@ -36,8 +36,7 @@ public class UserDAO {
         preparedStatement.setString(2, passwdSha256);
         ResultSet rs = preparedStatement.executeQuery();
         if(rs.next()){
-            //user=new User(username, rs.getString(nameDB), rs.getString(surnameDB));
-            user= new User(username, "nome", "cognome"); // TODO: 10/1/21 aggiungere caselle al database
+            user=new User(username, rs.getString(nameDB), rs.getString(surnameDB));
         }
 
         return user;

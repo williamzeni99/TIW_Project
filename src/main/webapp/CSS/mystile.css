@@ -1,5 +1,9 @@
-.divtry{
+.divbox{
     text-align: center;
-    border: 3px blue ;
-    background-color: red;
+    background-color: darkgrey;
+    border: 10px black;
+}
+
+.errorText{
+    color: red;
 }
