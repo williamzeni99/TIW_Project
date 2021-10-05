@@ -46,4 +46,5 @@ public class Utilities {
     // TODO: 10/6/21 vedere se è possibile imporre un trigger che aggiunge automaticamente il la subtopic quando ha un padre
     // TODO: 10/6/21 aggiungere un check sul fatto che l'id del topic non possa essere divisibile per 10 sul database (fatto sul server)
     // TODO: 10/6/21 implementare la funzione di spostamento
+    // TODO: 10/6/21 a database ultimato verificare come fare upload del database su github 
 }
