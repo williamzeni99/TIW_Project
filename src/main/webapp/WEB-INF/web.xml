@@ -30,5 +30,6 @@
     <filter-mapping>
         <filter-name>UserChecker</filter-name>
         <servlet-name>LoadHome</servlet-name>
+        <servlet-name>AddTopic</servlet-name>
     </filter-mapping>
 </web-app>
