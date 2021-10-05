@@ -30,6 +30,10 @@ public class LoginHandler extends HttpServlet {
 
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+        if(request.getSession().getAttribute("user")!=null){
+            response.sendRedirect(getServletContext().getContextPath()+"/LoadHome");
+            return;
+        }
         String path="/WEB-INF/templates/LoginPage.html";
         WebContext ctx= new WebContext(request, response, getServletContext(), request.getLocale());
         templateEngine.process(path,ctx, response.getWriter());

@@ -9,7 +9,9 @@ public enum ErrorMessage {
     UserNotMatch("The password is incorrect"),
     TopicNotFound("Topic you selected is not listed in our databases"),
     UsernameRequired("Username required"),
-    PasswdRequired("Password required");
+    PasswdRequired("Password required"),
+    TopicNameMissing("Topic name required"),
+    NoMoreTopic("You cannot add more Topic in this section");
 
 
     private final String message;

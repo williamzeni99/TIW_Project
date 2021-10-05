@@ -4,6 +4,7 @@ import it.polimi.tiw.tiw179.DAO.TopicDAO;
 import it.polimi.tiw.tiw179.ErrorMessage;
 import it.polimi.tiw.tiw179.Utilities;
 import it.polimi.tiw.tiw179.beans.Topic;
+import it.polimi.tiw.tiw179.beansForm.AddTopicForm;
 import org.thymeleaf.TemplateEngine;
 import org.thymeleaf.context.WebContext;
 
@@ -36,13 +37,21 @@ public class LoadHome extends HttpServlet {
         }
         WebContext ctx= new WebContext(request,response,getServletContext(),response.getLocale());
         ctx.setVariable("topics",topic.getSubtopics());
+        String id= request.getParameter("id");
+        String body= request.getParameter("body");
+        if(id!=null){
+            ctx.setVariable("id", id);
+        }
+        if(body!=null){
+            ctx.setVariable("body", id);
+        }
         String path="/WEB-INF/templates/HomePage.html";
         templateEngine.process(path,ctx,response.getWriter());
     }
 
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-
+        doGet(request,response);
     }
 
     @Override

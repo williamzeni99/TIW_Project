@@ -14,7 +14,32 @@
     <p></p>
 </div>
 <h3> Topics</h3>
-<div th:replace="fragments/topicFragment :: topicFrame"></div>
+<div th:replace="WEB-INF/templates/fragments/topicFragment :: topicFrame"></div>
+
+<div>
+    <h3>Insert new Topic<h3>
+    <form method="post" action="AddTopic">
+        <table>
+            <tr>
+                <td>Name</td>
+                <td>Father id</td>
+            </tr>
+            <tr>
+                <td><input type="text" th:value="${body}" name="body" required /></td>
+                <td><input type="text" th:value="${id}" name="idFather" required/></td>
+            </tr>
+        </table>
+        <input type="submit" value="Submit"/>
+    </form>
+    <span th:text="${errorMsg}"></span>
+</div>
+
+<div>
+    <form method="post" action="Logout">
+        <span th:text="#{final.logout}"> logout text</span>
+        <input type="submit" value="Logout">
+    </form>
+</div>
 
 </body>
 </html>
