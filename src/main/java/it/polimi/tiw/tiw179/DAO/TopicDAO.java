@@ -1,5 +1,6 @@
 package it.polimi.tiw.tiw179.DAO;
 
+import com.mysql.cj.jdbc.CallableStatement;
 import it.polimi.tiw.tiw179.beans.Topic;
 
 import java.sql.Connection;
@@ -10,87 +11,38 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class TopicDAO {
-    private Connection con;
+    private Connection connection;
 
     public TopicDAO(Connection connection) {
-        this.con = connection;
+        this.connection = connection;
     }
 
-    public List<Topic> findAllTopics() throws SQLException {
-        List<Topic> topics = new ArrayList<>();
-        String query = "SELECT * FROM Subtopic order by id_father, id_son"; //fino a qui ho un idea, poi ora inizia il tostino, non so ancora come riempire bene le topic in modo efficiente (possibilità di fare un join per avere gli altri dati necessari)
-        ResultSet result = null;
-        PreparedStatement pstatement = null;
-        try {
-            pstatement = con.prepareStatement(query);
-            result = pstatement.executeQuery();
-            while (result.next()) {
+    /**It returns all the topics in the database with their subtopics*/
+    public Topic getTopics() throws SQLException {
+        Topic defaultTopic= new Topic(0,"");
+        return findAllTopics(defaultTopic);
+    }
 
-                /*Topic t = new Topic();
-                t.setId(result.getInt("idTopic"));
-                t.setName(result.getString("name"));
-                topics.add(t);
-
-                 */
-            }
-        } catch (SQLException e) {
-            throw new SQLException(e);
-
-        } finally {
-            try {
-                if (result != null) {
-                    result.close();
-                }
-            } catch (Exception e1) {
-                throw new SQLException("Cannot close result");
-            }
-            try {
-                if (pstatement != null) {
-                    pstatement.close();
-                }
-            } catch (Exception e1) {
-                throw new SQLException("Cannot close statement");
-            }
+    public Topic findAllTopics(Topic father) throws SQLException {
+        String query= "";
+        PreparedStatement pstatement;
+        if(father.getId()==0){
+            query= "select * from Topic where id<10 order by id";
+            pstatement = connection.prepareStatement(query);
         }
-        return topics;
-    }
-
-    public Topic findTopicById(int topicId) throws SQLException {
-        Topic t = null;
-        String query = "SELECT * FROM topic where idTopic = ?";
-        ResultSet result = null;
-        PreparedStatement pstatement = null;
-        try {
-            pstatement = con.prepareStatement(query);
-            pstatement.setInt(1, topicId);
-            result = pstatement.executeQuery();
-            while (result.next()) {
-                /*t = new Topic();
-                t.setId(result.getInt("idTopic"));
-                t.setName(result.getString("name"));
-
-                 */
-            }
-        } catch (SQLException e) {
-            throw new SQLException(e);
-
-        } finally {
-            try {
-                if (result != null) {
-                    result.close();
-                }
-            } catch (Exception e1) {
-                throw new SQLException("Cannot close result");
-            }
-            try {
-                if (pstatement != null) {
-                    pstatement.close();
-                }
-            } catch (Exception e1) {
-                throw new SQLException("Cannot close statement");
-            }
+        else{
+            query = "SELECT id, name from Subtopic,Topic where id=id_son and id_father=? order by id";
+            pstatement = connection.prepareStatement(query);
+            pstatement.setInt(1,father.getId());
         }
-        return t;
-    }
+        ResultSet result= pstatement.executeQuery();
+        boolean check= result.next();
 
+        for(int i=0; i<9 && check; i++, check=result.next()){
+            Topic newFather= new Topic(result.getInt("id"), result.getString("name"));
+            father.addsubTopic(findAllTopics(newFather));
+        }
+
+        return father;
+    }
 }
