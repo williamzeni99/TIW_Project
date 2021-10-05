@@ -1,0 +1,17 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<body>
+<div th:fragment="topicFrame" >
+  <ul>
+    <li th:each="topic : ${topics}" >
+      <span th:text="${topic.id}">topic</span>
+      <span th:text="${topic.name}"> topic name</span>
+      <div th:with="topics = ${topic.getSubtopics()}"
+           th:include="this :: topicFrame" ></div>
+    </li>
+  </ul>
+</div>
+</body>
+</html>
+
+
