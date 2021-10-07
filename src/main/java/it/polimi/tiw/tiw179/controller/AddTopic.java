@@ -58,11 +58,6 @@ public class AddTopic extends HttpServlet {
             }
         }
 
-        /*request.setAttribute("id", form.getIdFather());
-        request.setAttribute("body", form.getBody());
-        request.setAttribute("errorMsg",form.getErrorMessage().getMessage());
-
-         */
         request.setAttribute("form", form);
         String path = "/LoadHome";
         RequestDispatcher dispatcher= request.getRequestDispatcher(path);

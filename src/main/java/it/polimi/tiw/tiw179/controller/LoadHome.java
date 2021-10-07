@@ -14,6 +14,7 @@ import javax.servlet.annotation.*;
 import java.io.IOException;
 import java.sql.Connection;
 import java.sql.SQLException;
+import java.util.ArrayList;
 
 @WebServlet(name = "LoadHome", value = "/LoadHome")
 public class LoadHome extends HttpServlet {
@@ -31,6 +32,7 @@ public class LoadHome extends HttpServlet {
         TopicDAO topicDAO= new TopicDAO(connection);
         Topic topic= null;
         AddTopicForm form= (AddTopicForm) request.getAttribute("form");
+        ArrayList<Integer> redtopics= (ArrayList<Integer>) request.getAttribute("redTopics");
         try {
             topic = topicDAO.getTopics();
         } catch (SQLException e) {
@@ -42,6 +44,9 @@ public class LoadHome extends HttpServlet {
             ctx.setVariable("id", form.getIdFather());
             ctx.setVariable("body", form.getBody());
             ctx.setVariable("errorMsg", form.getErrorMessage().getMessage());
+        }
+        if(redtopics!=null){
+            ctx.setVariable("redTopics", redtopics);
         }
         String path="/WEB-INF/templates/HomePage.html";
         templateEngine.process(path,ctx,response.getWriter());

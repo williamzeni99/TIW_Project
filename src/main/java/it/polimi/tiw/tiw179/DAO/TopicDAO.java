@@ -5,6 +5,7 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.ArrayList;
 
 public class TopicDAO {
     private Connection connection;
@@ -13,7 +14,7 @@ public class TopicDAO {
         this.connection = connection;
     }
 
-    /**It returns all the topics in the database with their subtopics*/
+    /**It returns all the topics in the database with their subtopics in a default Topic(0, "")*/
     public Topic getTopics() throws SQLException {
         Topic defaultTopic= new Topic(0,"");
         return iterateTopics(defaultTopic);
@@ -72,7 +73,7 @@ public class TopicDAO {
 
     }
 
-    public ResultSet getSons(int id) throws SQLException {
+    private ResultSet getSons(int id) throws SQLException {
         String query= "";
         PreparedStatement pstatement;
         if(id==0){
@@ -86,5 +87,19 @@ public class TopicDAO {
         }
 
         return pstatement.executeQuery();
+    }
+
+    public ArrayList<Integer> getTopicsList(int idFather) throws SQLException {
+        ArrayList<Integer> topiclist= new ArrayList<>();
+        getNextTopicIds(idFather, topiclist);
+        return topiclist;
+    }
+
+    private void getNextTopicIds(int idFather, ArrayList<Integer> topiclist) throws SQLException {
+        ResultSet resultSet= getSons(idFather);
+        while(resultSet.next()){
+            topiclist.add(resultSet.getInt("id"));
+            getNextTopicIds(resultSet.getInt("id"), topiclist);
+        }
     }
 }
