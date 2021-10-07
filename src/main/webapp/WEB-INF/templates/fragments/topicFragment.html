@@ -4,8 +4,16 @@
 <div th:fragment="topicFrame" >
   <ul>
     <li th:each="topic : ${topics}" >
-      <span th:text="${topic.id}">topic</span>
-      <span th:text="${topic.name}"> topic name</span>
+      <form th:action="MoveTopic" th:method="post">
+        <table>
+        <tr>
+            <td> <span th:text="${topic.id}">topic</span> </td>
+            <td> <span th:text="${topic.name}"> topic name</span> </td>
+            <td> <input th:type="hidden" th:value="${topic.id}" th:name="idToMove"></td>
+            <td> <input th:type="submit" th:value="move"> </td>
+          </tr>
+        </table>
+      </form>
       <div th:with="topics = ${topic.getSubtopics()}"
            th:include="this :: topicFrame" ></div>
     </li>

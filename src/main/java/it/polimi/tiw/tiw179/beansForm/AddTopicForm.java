@@ -1,6 +1,7 @@
 package it.polimi.tiw.tiw179.beansForm;
 
 import it.polimi.tiw.tiw179.ErrorMessage;
+import it.polimi.tiw.tiw179.Utilities;
 
 public class AddTopicForm {
     private String body;
@@ -16,7 +17,7 @@ public class AddTopicForm {
         if(body==null || body.isEmpty()){
             errorBody=true;
         }
-        if(!isGood(id)){
+        if(!Utilities.isGood(id)){
             errorId=true;
         }
     }
@@ -49,15 +50,4 @@ public class AddTopicForm {
         return !(errorBody || errorId);
     }
 
-    private boolean isGood(String id) {
-        try {
-            Integer.parseInt(id);
-        }catch (NumberFormatException e){
-            return false;
-        }
-        if(id==null || id.isEmpty()){
-            return false;
-        }
-        return true;
-    }
 }

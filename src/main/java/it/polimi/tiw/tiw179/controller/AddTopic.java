@@ -5,6 +5,7 @@ import it.polimi.tiw.tiw179.ErrorMessage;
 import it.polimi.tiw.tiw179.Utilities;
 import it.polimi.tiw.tiw179.beansForm.AddTopicForm;
 import org.thymeleaf.TemplateEngine;
+import org.thymeleaf.context.WebContext;
 
 import javax.servlet.*;
 import javax.servlet.http.*;
@@ -57,10 +58,13 @@ public class AddTopic extends HttpServlet {
             }
         }
 
-        // TODO: 10/6/21 questa parte non funziona gestione errore inserimento 
-        request.setAttribute("id", form.getIdFather());
+        /*request.setAttribute("id", form.getIdFather());
         request.setAttribute("body", form.getBody());
-        String path = getServletContext().getContextPath()+"/LoadHome";
+        request.setAttribute("errorMsg",form.getErrorMessage().getMessage());
+
+         */
+        request.setAttribute("form", form);
+        String path = "/LoadHome";
         RequestDispatcher dispatcher= request.getRequestDispatcher(path);
         dispatcher.forward(request,response);
 

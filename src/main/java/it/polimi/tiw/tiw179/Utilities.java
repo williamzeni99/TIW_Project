@@ -42,6 +42,19 @@ public class Utilities {
         return connection;
     }
 
+    public static boolean isGood(String id) {
+        try {
+            int x=Integer.parseInt(id);
+            if(x<0) return false;
+        }catch (NumberFormatException e){
+            return false;
+        }
+        if(id==null || id.isEmpty()){
+            return false;
+        }
+        return true;
+    }
+
     // TODO: 10/6/21 completare il tutto graficamente con CSS
     // TODO: 10/6/21 vedere se è possibile imporre un trigger che aggiunge automaticamente il la subtopic quando ha un padre
     // TODO: 10/6/21 aggiungere un check sul fatto che l'id del topic non possa essere divisibile per 10 sul database (fatto sul server)
