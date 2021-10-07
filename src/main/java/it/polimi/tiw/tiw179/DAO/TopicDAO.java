@@ -34,7 +34,6 @@ public class TopicDAO {
 
     public void addTopicDB(String id_father, String name) throws SQLException, IllegalArgumentException{
         int value= getNextValue(Integer.parseInt(id_father));
-        if(value%10==0) throw new IllegalArgumentException();
         String query="insert into Topic values (?, ?)";
         PreparedStatement preparedStatement= connection.prepareStatement(query);
         preparedStatement.setInt(1, value);
@@ -51,26 +50,18 @@ public class TopicDAO {
     }
 
     private int getNextValue(int x) throws SQLException {
-        String query;
-        if(x==0){
-            query="SELECT max(id) as x from Topic where id<10";
+        ResultSet set=getSons(x);
+        int i=1;
+        while(set.next()){
+            if(set.getInt("id")!=x*10+i){
+                return x*10+i;
+            }
+            i++;
         }
-        else {
-            query= "Select max(id_son) as x from Subtopic where id_father=?";
+        if((x*10+i)%10==0){
+            throw new IllegalArgumentException();
         }
-        PreparedStatement preparedStatement=connection.prepareStatement(query);
-        if(x!=0){
-            preparedStatement.setInt(1,x);
-        }
-        ResultSet set=preparedStatement.executeQuery();
-        boolean status= set.next();
-        if(status && set.getInt("x")!=0){
-            return set.getInt("x")+1;
-        }
-        else{
-            return x*10+1;
-        }
-
+        return x*10+i;
     }
 
     private ResultSet getSons(int id) throws SQLException {
