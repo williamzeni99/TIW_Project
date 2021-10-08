@@ -32,6 +32,7 @@ public class TopicDAO {
         return father;
     }
 
+    /**Adds a Topic to the database with their connections in subtopics*/
     public void addTopicDB(String id_father, String name) throws SQLException, IllegalArgumentException{
         int value= getNextValue(Integer.parseInt(id_father));
         String query="insert into Topic values (?, ?)";
@@ -82,6 +83,7 @@ public class TopicDAO {
 
     public ArrayList<Integer> getTopicsList(int idFather) throws SQLException {
         ArrayList<Integer> topiclist= new ArrayList<>();
+        topiclist.add(idFather);
         getNextTopicIds(idFather, topiclist);
         return topiclist;
     }

@@ -49,4 +49,12 @@ public class MoveTopic extends HttpServlet {
         dispatcher.forward(request,response);
     }
 
+    @Override
+    public void destroy() {
+        try {
+            Utilities.closeDBConnection(connection);
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+    }
 }

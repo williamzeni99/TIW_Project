@@ -22,4 +22,9 @@ public class Logout extends HttpServlet {
         response.sendRedirect(getServletContext().getContextPath()+"/LoginHandler");
 
     }
+
+    @Override
+    public void destroy() {
+        super.destroy();
+    }
 }

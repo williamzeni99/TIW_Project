@@ -40,6 +40,7 @@ public class LoadHome extends HttpServlet {
         }
         WebContext ctx= new WebContext(request,response,getServletContext(),response.getLocale());
         ctx.setVariable("topics",topic.getSubtopics());
+        ctx.setVariable("redTopics", new ArrayList<>());
         if(form!=null){
             ctx.setVariable("id", form.getIdFather());
             ctx.setVariable("body", form.getBody());
@@ -60,9 +61,7 @@ public class LoadHome extends HttpServlet {
     @Override
     public void destroy() {
         try {
-            if(connection!=null){
-                connection.close();
-            }
+            Utilities.closeDBConnection(connection);
         } catch (SQLException e) {
             e.printStackTrace();
         }

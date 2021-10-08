@@ -5,8 +5,9 @@
     <title>HomePage</title>
     <link rel="stylesheet" type="text/css" media="all" th:href="@{/CSS/mystile.css}"/>
 </head>
-<body>
 
+<body>
+<!--Welcome section-->
 <h1 th:text="#{start.Welcome}">Welcome text</h1>
 <div>
     <span th:text="#{start.logintext}">Entering text</span>
@@ -14,9 +15,18 @@
     <span th:text="${session.user.surname}"></span>
     <p></p>
 </div>
-<h3> Topics</h3>
-<div th:replace="WEB-INF/templates/fragments/topicFragment :: topicFrame"></div>
 
+<!--Topics Section-->
+<h3> Topics</h3>
+
+<div th:if="${#lists.isEmpty(redTopics)}">
+    <div th:replace="WEB-INF/templates/fragments/topicFragment :: topicFrame">FRAME1</div>
+</div>
+<div th:if="${not #lists.isEmpty(redTopics)}">
+    <div th:replace="WEB-INF/templates/fragments/topicFragment :: moveFrame"> FRAME2</div>
+</div>
+
+<!-- Insert new Topic Section-->
 <div>
     <h3>Insert new Topic</h3>
     <form method="post" action="AddTopic">
