@@ -32,8 +32,10 @@
                             <td> <span th:class="errorText" th:text="${topic.name}"> topic name</span> </td>
                         </div>
                         <div th:if="${not redTopics.contains(topic.id)}">
+                            <td> <span th:text="${topic.id}">topic</span> </td>
                             <td> <span th:text="${topic.name}"> topic name</span> </td>
-                            <td> <input th:type="hidden" th:value="${topic.id}" th:name="idToMove"></td>
+                            <td> <input th:type="hidden" th:value="${idToMove}" th:name="idToMove"></td>
+                            <td> <input th:type="hidden" th:value="${topic.id}" th:name="idWhereToMove"></td>
                             <td> <input th:type="submit" th:value="movehere"> </td>
                         </div>
                     </tr>

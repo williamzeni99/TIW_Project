@@ -20,7 +20,9 @@ public class AddTopicForm {
         if(!Utilities.isGood(id)){
             errorId=true;
         }
+
     }
+
 
     public String getBody() {
         return body;
@@ -47,7 +49,7 @@ public class AddTopicForm {
     }
 
     public boolean isValid(){
-        return !(errorBody || errorId);
+        return !(errorBody || errorId );
     }
 
 }

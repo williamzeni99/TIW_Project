@@ -36,8 +36,8 @@
                 <td>Father id</td>
             </tr>
             <tr>
-                <td><input type="text" th:value="${body}" name="body"  /></td>
-                <td><input type="text" th:value="${id}" name="idFather" /></td>
+                <td><input type="text" th:value="${body}" name="body" required/></td>
+                <td><input type="text" th:value="${id}" name="idFather" required/></td>
             </tr>
         </table>
         <input type="submit" value="Submit"/>
@@ -45,6 +45,7 @@
     <span th:text="${errorMsg}"></span>
 </div>
 
+<!--Logout Section-->
 <div>
     <form method="post" action="Logout">
         <span th:text="#{final.logout}"> logout text</span>

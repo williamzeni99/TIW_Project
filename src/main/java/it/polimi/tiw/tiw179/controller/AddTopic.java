@@ -13,6 +13,7 @@ import javax.servlet.annotation.*;
 import java.io.IOException;
 import java.sql.Connection;
 import java.sql.SQLException;
+import java.util.ArrayList;
 
 @WebServlet(name = "AddTopic", value = "/AddTopic")
 public class AddTopic extends HttpServlet {
@@ -39,19 +40,26 @@ public class AddTopic extends HttpServlet {
 
         if(form.isValid()){
             try {
-                topicDAO.addTopicDB(request.getParameter(idFatherParameter), request.getParameter(bodyParameter));
-                response.sendRedirect(getServletContext().getContextPath()+"/LoadHome");
-                return;
+                ArrayList<Integer> ids= new ArrayList<>();
+                ids.add(Integer.parseInt(request.getParameter(idFatherParameter)));
+                if(topicDAO.idExist(ids)){
+                    topicDAO.addTopicDB(request.getParameter(idFatherParameter), request.getParameter(bodyParameter));
+                    response.sendRedirect(getServletContext().getContextPath()+"/LoadHome");
+                    return;
+                }
+                else{
+                    form.setErrorMessage(ErrorMessage.TopicNotFound);
+                }
             } catch (SQLException e) {
                 response.sendError(HttpServletResponse.SC_INTERNAL_SERVER_ERROR, ErrorMessage.QueryNotGood.getMessage());
                 return;
-            }catch (IllegalArgumentException e){
+            } catch (IllegalArgumentException e){
                 form.setErrorMessage(ErrorMessage.NoMoreTopic);
             }
         }
         else{
             if(form.checkErrorId()){
-                form.setErrorMessage(ErrorMessage.TopicNotFound);
+                form.setErrorMessage(ErrorMessage.TopicNotInt);
             }
             else{
                 form.setErrorMessage(ErrorMessage.TopicNameMissing);

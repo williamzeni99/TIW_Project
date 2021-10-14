@@ -44,6 +44,7 @@ public class MoveTopic extends HttpServlet {
         }
 
         request.setAttribute("redTopics", topiclist);
+        request.setAttribute("idToMove", id);
         String path = "/LoadHome";
         RequestDispatcher dispatcher= request.getRequestDispatcher(path);
         dispatcher.forward(request,response);

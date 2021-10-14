@@ -7,3 +7,10 @@
 .errorText{
     color: red;
 }
+
+.formdiv {
+    width: 33%;
+    display: inline;
+    margin: 10px;
+    padding: 10px;
+}

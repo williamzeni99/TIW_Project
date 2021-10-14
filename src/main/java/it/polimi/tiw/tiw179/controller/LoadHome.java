@@ -33,6 +33,7 @@ public class LoadHome extends HttpServlet {
         Topic topic= null;
         AddTopicForm form= (AddTopicForm) request.getAttribute("form");
         ArrayList<Integer> redtopics= (ArrayList<Integer>) request.getAttribute("redTopics");
+        String idToMove= (String) request.getAttribute("idToMove");
         try {
             topic = topicDAO.getTopics();
         } catch (SQLException e) {
@@ -41,6 +42,7 @@ public class LoadHome extends HttpServlet {
         WebContext ctx= new WebContext(request,response,getServletContext(),response.getLocale());
         ctx.setVariable("topics",topic.getSubtopics());
         ctx.setVariable("redTopics", new ArrayList<>());
+
         if(form!=null){
             ctx.setVariable("id", form.getIdFather());
             ctx.setVariable("body", form.getBody());
@@ -49,6 +51,11 @@ public class LoadHome extends HttpServlet {
         if(redtopics!=null){
             ctx.setVariable("redTopics", redtopics);
         }
+        if(idToMove!=null){
+            ctx.setVariable("idToMove", idToMove);
+        }
+
+
         String path="/WEB-INF/templates/HomePage.html";
         templateEngine.process(path,ctx,response.getWriter());
     }

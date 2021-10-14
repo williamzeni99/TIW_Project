@@ -8,6 +8,7 @@ public enum ErrorMessage {
     UserNotFound("The user is not listed in our databases"),
     UserNotMatch("The password is incorrect"),
     TopicNotFound("Topic you selected is not listed in our databases"),
+    TopicNotInt("The father id is not an integer"),
     UsernameRequired("Username required"),
     PasswdRequired("Password required"),
     TopicNameMissing("Topic name required"),

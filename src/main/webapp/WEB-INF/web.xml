@@ -32,5 +32,27 @@
         <servlet-name>LoadHome</servlet-name>
         <servlet-name>AddTopic</servlet-name>
         <servlet-name>MoveTopic</servlet-name>
+        <servlet-name>MoveTopicConfirm</servlet-name>
     </filter-mapping>
+
+
+    <filter>
+        <filter-name>MoveFilter</filter-name>
+        <filter-class>it.polimi.tiw.tiw179.filters.MoveFilter</filter-class>
+    </filter>
+    <filter-mapping>
+        <filter-name>MoveFilter</filter-name>
+        <servlet-name>MoveTopic</servlet-name>
+        <servlet-name>MoveTopicConfirm</servlet-name>
+    </filter-mapping>
+
+    <filter>
+        <filter-name>MoveConfirmFilter</filter-name>
+        <filter-class>it.polimi.tiw.tiw179.filters.MoveConfirmFilter</filter-class>
+    </filter>
+    <filter-mapping>
+        <filter-name>MoveConfirmFilter</filter-name>
+        <servlet-name>MoveTopicConfirm</servlet-name>
+    </filter-mapping>
+
 </web-app>
