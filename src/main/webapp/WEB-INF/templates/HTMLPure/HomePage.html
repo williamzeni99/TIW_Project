@@ -8,9 +8,9 @@
 
 <body>
 <!--Welcome section-->
-<h1 th:text="#{start.Welcome}">Welcome text</h1>
+<h1 th:text="#{Welcome}">Welcome text</h1>
 <div>
-    <span th:text="#{start.logintext}">Entering text</span>
+    <span th:text="#{logintext}">Entering text</span>
     <span th:text="${session.user.name}"></span>
     <span th:text="${session.user.surname}"></span>
     <p></p>
@@ -27,17 +27,21 @@
 </div>
 
 <!-- Insert new Topic Section-->
-<div>
+<div th:class="formdiv" th:if="${#lists.isEmpty(redTopics)}">
     <h3>Insert new Topic</h3>
-    <form method="post" action="AddTopic">
+    <form th:class="formdiv" method="post" action="AddTopic">
         <table>
             <tr>
                 <td>Name</td>
-                <td>Father id</td>
+                <td>Top Topic</td>
             </tr>
             <tr>
                 <td><input type="text" th:value="${body}" name="body" required/></td>
-                <td><input type="text" th:value="${id}" name="idFather" required/></td>
+                <td>
+                    <select name="idFather">
+                        <option th:each="x : ${listId}" th:value="${x}" th:text="${x}"></option>
+                    </select>
+                </td>
             </tr>
         </table>
         <input type="submit" value="Submit"/>
@@ -46,9 +50,10 @@
 </div>
 
 <!--Logout Section-->
-<div>
-    <form method="post" action="Logout">
-        <span th:text="#{final.logout}"> logout text</span>
+<div th:class="logout">
+    <br>
+    <form th:method="post" th:action="Logout">
+        <span th:text="#{logout}"> logout text</span>
         <input type="submit" value="Logout">
     </form>
 </div>

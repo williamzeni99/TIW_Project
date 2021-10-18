@@ -34,14 +34,17 @@ public class LoadHome extends HttpServlet {
         AddTopicForm form= (AddTopicForm) request.getAttribute("form");
         ArrayList<Integer> redtopics= (ArrayList<Integer>) request.getAttribute("redTopics");
         String idToMove= (String) request.getAttribute("idToMove");
+        WebContext ctx= new WebContext(request,response,getServletContext(),response.getLocale());
+        ArrayList<Integer> listId = null;
         try {
             topic = topicDAO.getTopics();
+            listId=topicDAO.getTopicsList(0);
         } catch (SQLException e) {
             response.sendError(HttpServletResponse.SC_INTERNAL_SERVER_ERROR, ErrorMessage.QueryNotGood.getMessage());
         }
-        WebContext ctx= new WebContext(request,response,getServletContext(),response.getLocale());
         ctx.setVariable("topics",topic.getSubtopics());
         ctx.setVariable("redTopics", new ArrayList<>());
+        ctx.setVariable("listId", listId);
 
         if(form!=null){
             ctx.setVariable("id", form.getIdFather());

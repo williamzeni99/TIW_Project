@@ -8,14 +8,14 @@
 </head>
 
 
-<body>
-<h1 th:text="#{home.welcome}"> WELCOME</h1>
-<p th:utext="#{home.description}"> Description </p>
-<div class="divbox">
-    <form  name="LoginForm" method="post" action="LoginHandler" >
-        <table th:class="divbox">
+<body th:class="divcentered">
+<h1 th:text="#{welcome}"> WELCOME</h1>
+<p th:utext="#{description}"> Description </p>
+<div>
+    <form th:class="formcentered" name="LoginForm" method="post" action="LoginHandler" >
+        <table th:class="tablecentered">
             <tr>
-                <td th:text="#{login.user}">User</td>
+                <td th:text="#{user}">User</td>
                 <td><input type="text" name="username" th:value="${username}" required /></td>
             </tr>
             <tr>
@@ -25,7 +25,7 @@
             <tr>
             </tr>
         </table>
-        <input type="submit" value="Submit" th:value="#{login.send}"/>
+        <input type="submit" value="Submit" th:value="#{send}"/>
     </form>
     <p th:text="${errorMsg}" th:class="errorText"></p>
 </div>
