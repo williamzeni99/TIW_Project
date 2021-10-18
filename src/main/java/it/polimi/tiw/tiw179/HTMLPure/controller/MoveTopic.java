@@ -1,6 +1,6 @@
-package it.polimi.tiw.tiw179.controller;
+package it.polimi.tiw.tiw179.HTMLPure.controller;
 
-import it.polimi.tiw.tiw179.DAO.TopicDAO;
+import it.polimi.tiw.tiw179.HTMLPure.DAO.TopicDAO;
 import it.polimi.tiw.tiw179.ErrorMessage;
 import it.polimi.tiw.tiw179.Utilities;
 
@@ -9,7 +9,6 @@ import javax.servlet.http.*;
 import javax.servlet.annotation.*;
 import java.io.IOException;
 import java.sql.Connection;
-import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
 

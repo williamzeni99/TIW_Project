@@ -1,11 +1,10 @@
-package it.polimi.tiw.tiw179.controller;
+package it.polimi.tiw.tiw179.HTMLPure.controller;
 
-import it.polimi.tiw.tiw179.DAO.TopicDAO;
+import it.polimi.tiw.tiw179.HTMLPure.DAO.TopicDAO;
 import it.polimi.tiw.tiw179.ErrorMessage;
 import it.polimi.tiw.tiw179.Utilities;
-import it.polimi.tiw.tiw179.beansForm.AddTopicForm;
+import it.polimi.tiw.tiw179.HTMLPure.beansForm.AddTopicForm;
 import org.thymeleaf.TemplateEngine;
-import org.thymeleaf.context.WebContext;
 
 import javax.servlet.*;
 import javax.servlet.http.*;

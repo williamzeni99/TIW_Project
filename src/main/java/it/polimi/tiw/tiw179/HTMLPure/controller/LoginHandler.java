@@ -1,10 +1,10 @@
-package it.polimi.tiw.tiw179.controller;
+package it.polimi.tiw.tiw179.HTMLPure.controller;
 
-import it.polimi.tiw.tiw179.DAO.UserDAO;
+import it.polimi.tiw.tiw179.HTMLPure.DAO.UserDAO;
 import it.polimi.tiw.tiw179.ErrorMessage;
 import it.polimi.tiw.tiw179.Utilities;
-import it.polimi.tiw.tiw179.beans.User;
-import it.polimi.tiw.tiw179.beansForm.LoginFom;
+import it.polimi.tiw.tiw179.HTMLPure.beans.User;
+import it.polimi.tiw.tiw179.HTMLPure.beansForm.LoginFom;
 import org.thymeleaf.TemplateEngine;
 import org.thymeleaf.context.WebContext;
 
@@ -34,7 +34,7 @@ public class LoginHandler extends HttpServlet {
             response.sendRedirect(getServletContext().getContextPath()+"/LoadHome");
             return;
         }
-        String path="/WEB-INF/templates/LoginPage.html";
+        String path="/WEB-INF/templates/HTMLPure/LoginPage.html";
         WebContext ctx= new WebContext(request, response, getServletContext(), request.getLocale());
         templateEngine.process(path,ctx, response.getWriter());
     }
@@ -81,7 +81,7 @@ public class LoginHandler extends HttpServlet {
         final WebContext ctx = new WebContext(request, response, servletContext, request.getLocale());
         ctx.setVariable("errorMsg", loginFom.getErrorMessage());
         ctx.setVariable("username", loginFom.getUsername());
-        String path = "/WEB-INF/templates/LoginPage.html";
+        String path = "/WEB-INF/templates/HTMLPure/LoginPage.html";
         templateEngine.process(path, ctx, response.getWriter());
     }
 

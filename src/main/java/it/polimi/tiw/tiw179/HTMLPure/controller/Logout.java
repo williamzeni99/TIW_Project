@@ -1,4 +1,4 @@
-package it.polimi.tiw.tiw179.controller;
+package it.polimi.tiw.tiw179.HTMLPure.controller;
 
 import javax.servlet.*;
 import javax.servlet.http.*;

@@ -1,4 +1,4 @@
-package it.polimi.tiw.tiw179.beansForm;
+package it.polimi.tiw.tiw179.HTMLPure.beansForm;
 
 import it.polimi.tiw.tiw179.ErrorMessage;
 

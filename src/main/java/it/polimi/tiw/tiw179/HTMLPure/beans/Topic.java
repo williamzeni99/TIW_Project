@@ -1,4 +1,4 @@
-package it.polimi.tiw.tiw179.beans;
+package it.polimi.tiw.tiw179.HTMLPure.beans;
 
 import java.util.ArrayList;
 

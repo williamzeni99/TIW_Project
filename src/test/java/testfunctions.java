@@ -1,11 +1,6 @@
-import it.polimi.tiw.tiw179.Utilities;
-import it.polimi.tiw.tiw179.beans.Topic;
-import it.polimi.tiw.tiw179.beans.User;
-import org.apache.commons.codec.digest.DigestUtils;
+import it.polimi.tiw.tiw179.HTMLPure.beans.Topic;
 import org.junit.jupiter.api.Test;
 
-import javax.servlet.ServletContext;
-import java.sql.Connection;
 import java.util.ArrayList;
 
 import static org.junit.jupiter.api.Assertions.fail;

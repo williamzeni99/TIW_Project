@@ -1,10 +1,10 @@
-package it.polimi.tiw.tiw179.controller;
+package it.polimi.tiw.tiw179.HTMLPure.controller;
 
-import it.polimi.tiw.tiw179.DAO.TopicDAO;
+import it.polimi.tiw.tiw179.HTMLPure.DAO.TopicDAO;
 import it.polimi.tiw.tiw179.ErrorMessage;
 import it.polimi.tiw.tiw179.Utilities;
-import it.polimi.tiw.tiw179.beans.Topic;
-import it.polimi.tiw.tiw179.beansForm.AddTopicForm;
+import it.polimi.tiw.tiw179.HTMLPure.beans.Topic;
+import it.polimi.tiw.tiw179.HTMLPure.beansForm.AddTopicForm;
 import org.thymeleaf.TemplateEngine;
 import org.thymeleaf.context.WebContext;
 
@@ -56,7 +56,7 @@ public class LoadHome extends HttpServlet {
         }
 
 
-        String path="/WEB-INF/templates/HomePage.html";
+        String path="/WEB-INF/templates/HTMLPure/HomePage.html";
         templateEngine.process(path,ctx,response.getWriter());
     }
 

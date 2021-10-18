@@ -1,6 +1,6 @@
-package it.polimi.tiw.tiw179.DAO;
+package it.polimi.tiw.tiw179.HTMLPure.DAO;
 
-import it.polimi.tiw.tiw179.beans.User;
+import it.polimi.tiw.tiw179.HTMLPure.beans.User;
 import org.apache.commons.codec.digest.DigestUtils;
 
 import java.sql.*;

@@ -1,5 +1,5 @@
-package it.polimi.tiw.tiw179.DAO;
-import it.polimi.tiw.tiw179.beans.Topic;
+package it.polimi.tiw.tiw179.HTMLPure.DAO;
+import it.polimi.tiw.tiw179.HTMLPure.beans.Topic;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;

@@ -25,7 +25,7 @@
 
     <filter>
         <filter-name>UserChecker</filter-name>
-        <filter-class>it.polimi.tiw.tiw179.filters.UserChecker</filter-class>
+        <filter-class>it.polimi.tiw.tiw179.HTMLPure.filters.UserChecker</filter-class>
     </filter>
     <filter-mapping>
         <filter-name>UserChecker</filter-name>
@@ -38,7 +38,7 @@
 
     <filter>
         <filter-name>MoveFilter</filter-name>
-        <filter-class>it.polimi.tiw.tiw179.filters.MoveFilter</filter-class>
+        <filter-class>it.polimi.tiw.tiw179.HTMLPure.filters.MoveFilter</filter-class>
     </filter>
     <filter-mapping>
         <filter-name>MoveFilter</filter-name>
@@ -48,7 +48,7 @@
 
     <filter>
         <filter-name>MoveConfirmFilter</filter-name>
-        <filter-class>it.polimi.tiw.tiw179.filters.MoveConfirmFilter</filter-class>
+        <filter-class>it.polimi.tiw.tiw179.HTMLPure.filters.MoveConfirmFilter</filter-class>
     </filter>
     <filter-mapping>
         <filter-name>MoveConfirmFilter</filter-name>

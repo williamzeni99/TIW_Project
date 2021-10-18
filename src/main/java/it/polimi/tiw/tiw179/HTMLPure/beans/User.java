@@ -1,4 +1,4 @@
-package it.polimi.tiw.tiw179.beans;
+package it.polimi.tiw.tiw179.HTMLPure.beans;
 
 public class User {
     private final String username;

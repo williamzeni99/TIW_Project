@@ -1,6 +1,4 @@
-package it.polimi.tiw.tiw179.filters;
-
-import it.polimi.tiw.tiw179.controller.LoginHandler;
+package it.polimi.tiw.tiw179.HTMLPure.filters;
 
 import javax.servlet.*;
 import javax.servlet.http.HttpServletRequest;
