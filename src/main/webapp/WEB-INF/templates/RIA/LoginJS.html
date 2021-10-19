@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+
+<head>
+    <meta content="text/html" charset="UTF-8">
+    <title>TIW project- RIA</title>
+    <link rel="stylesheet" type="text/css" media="all" th:href="@{/CSS/mystile.css}"/>
+</head>
+
+
+<body>
+<h1> Welcome to our first web project !</h1>
+<p> What can you see is a site entirely development by William Zeni for the Web Technologies&#39 project. <br> Log in for entering the private area. </p>
+<div>
+    <form name="LoginForm" method="post" action="LoginHandler" >
+        <table>
+            <tr>
+                <td>Username</td>
+                <td><input type="text" name="username" required /></td>
+            </tr>
+            <tr>
+                <td>Password</td>
+                <td><input type="password" name="password" required/></td>
+            </tr>
+            <tr>
+            </tr>
+        </table>
+        <input type="submit" value="Send"/>
+    </form>
+    <!--<p th:text="${errorMsg}" th:class="errorText"></p> ERROR TO PRINT -->
+</div>
+
+</body>
+</html>

@@ -64,4 +64,5 @@ public class Utilities {
 
 
     // TODO: 10/6/21 a database ultimato verificare come fare upload del database su github
+    // TODO: 10/19/21 modificare controllo 9 topic a livello grafico, problema del spostare in se stessi, meglio mettere un messaggio di errore gestendo l'eccezione
 }
