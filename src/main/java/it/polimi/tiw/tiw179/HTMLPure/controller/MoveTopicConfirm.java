@@ -56,12 +56,10 @@ public class MoveTopicConfirm extends HttpServlet {
 
     @Override
     public void destroy() {
-        if(connection!=null){
-            try {
-                connection.close();
-            } catch (SQLException e) {
-                e.printStackTrace();
-            }
+        try {
+            Utilities.closeDBConnection(connection);
+        } catch (SQLException e) {
+            e.printStackTrace();
         }
     }
 }
