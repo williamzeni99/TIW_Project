@@ -17,7 +17,7 @@
 </div>
 
 <!--Topics Section-->
-<h3> Topics</h3>
+<h3 th:if="${not topics.isEmpty()}"> Topics</h3>
 
 <div th:if="${#lists.isEmpty(redTopics)}">
     <div th:replace="WEB-INF/templates/HTMLPure/fragments/topicFragment :: topicFrame">FRAME1</div>
