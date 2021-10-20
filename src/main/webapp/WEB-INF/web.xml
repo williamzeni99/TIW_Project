@@ -23,6 +23,7 @@
         <welcome-file>/index.html</welcome-file>
     </welcome-file-list>
 
+    <!--HTML PURE-->
     <filter>
         <filter-name>UserChecker</filter-name>
         <filter-class>it.polimi.tiw.tiw179.HTMLPure.filters.UserChecker</filter-class>
@@ -53,6 +54,16 @@
     <filter-mapping>
         <filter-name>MoveConfirmFilter</filter-name>
         <servlet-name>MoveTopicConfirm</servlet-name>
+    </filter-mapping>
+
+    <!--RIA-->
+    <filter>
+        <filter-name>UserCheckerJS</filter-name>
+        <filter-class>it.polimi.tiw.tiw179.RIA.filters.UserCheckerJS</filter-class>
+    </filter>
+    <filter-mapping>
+        <filter-name>UserCheckerJS</filter-name>
+        <servlet-name>LoginHandlerJS</servlet-name>
     </filter-mapping>
 
 </web-app>

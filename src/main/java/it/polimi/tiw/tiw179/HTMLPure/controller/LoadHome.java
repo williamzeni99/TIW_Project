@@ -59,7 +59,7 @@ public class LoadHome extends HttpServlet {
         }
 
 
-        String path="/WEB-INF/templates/HTMLPure/HomePage.html";
+        String path="/WEB-INF/HTMLPure/HomePage.html";
         templateEngine.process(path,ctx,response.getWriter());
     }
 

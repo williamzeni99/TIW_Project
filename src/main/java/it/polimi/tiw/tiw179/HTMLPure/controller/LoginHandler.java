@@ -34,7 +34,7 @@ public class LoginHandler extends HttpServlet {
             response.sendRedirect(getServletContext().getContextPath()+"/LoadHome");
             return;
         }
-        String path="/WEB-INF/templates/HTMLPure/LoginPage.html";
+        String path="/WEB-INF/HTMLPure/LoginPage.html";
         WebContext ctx= new WebContext(request, response, getServletContext(), request.getLocale());
         templateEngine.process(path,ctx, response.getWriter());
     }

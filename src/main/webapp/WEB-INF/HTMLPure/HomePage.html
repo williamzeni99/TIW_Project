@@ -20,10 +20,10 @@
 <h3 th:if="${not topics.isEmpty()}"> Topics</h3>
 
 <div th:if="${#lists.isEmpty(redTopics)}">
-    <div th:replace="WEB-INF/templates/HTMLPure/fragments/topicFragment :: topicFrame">FRAME1</div>
+    <div th:replace="WEB-INF/HTMLPure/fragments/topicFragment :: topicFrame">FRAME1</div>
 </div>
 <div th:if="${not #lists.isEmpty(redTopics)}">
-    <div th:replace="WEB-INF/templates/HTMLPure/fragments/topicFragment :: moveFrame"> FRAME2</div>
+    <div th:replace="WEB-INF/HTMLPure/fragments/topicFragment :: moveFrame"> FRAME2</div>
 </div>
 
 <!-- Insert new Topic Section-->

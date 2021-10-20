@@ -1,10 +1,12 @@
 <!DOCTYPE html>
-<html xmlns:th="http://www.thymeleaf.org">
-
+<html>
 <head>
     <meta content="text/html" charset="UTF-8">
     <title>TIW project- RIA</title>
-    <link rel="stylesheet" type="text/css" media="all" th:href="@{/CSS/mystile.css}"/>
+    <link rel="stylesheet" type="text/css" media="all" href="/CSS/mystile.css"/>
+    <script src="Utils.js" charset="UTF-8" defer></script>
+    <script src="loginMenager.js" charset="UTF-8" defer></script>
+
 </head>
 
 
@@ -12,7 +14,7 @@
 <h1> Welcome to our first web project !</h1>
 <p> What can you see is a site entirely development by William Zeni for the Web Technologies&#39 project. <br> Log in for entering the private area. </p>
 <div>
-    <form name="LoginForm" method="post" action="LoginHandler" >
+    <form>
         <table>
             <tr>
                 <td>Username</td>
@@ -20,15 +22,12 @@
             </tr>
             <tr>
                 <td>Password</td>
-                <td><input type="password" name="password" required/></td>
-            </tr>
-            <tr>
+                <td><input type="password" name="password" id="password" required/></td>
             </tr>
         </table>
-        <input type="submit" value="Send"/>
+        <input type="button" id="loginButton" value="send"/>
     </form>
-    <!--<p th:text="${errorMsg}" th:class="errorText"></p> ERROR TO PRINT -->
+    <span id="errorMsg"></span>
 </div>
-
 </body>
 </html>

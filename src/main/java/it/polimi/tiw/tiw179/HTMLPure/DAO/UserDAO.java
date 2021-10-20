@@ -30,10 +30,9 @@ public class UserDAO {
 
     public User match(String username, String passwd) throws SQLException {
         User user=null;
-        String passwdSha256= DigestUtils.sha256Hex(passwd);
         PreparedStatement preparedStatement = connection.prepareStatement("select * from User where "+usernameDB+" = ? and "+passwordDB+" = ? ");
         preparedStatement.setString(1, username);
-        preparedStatement.setString(2, passwdSha256);
+        preparedStatement.setString(2, passwd);
         ResultSet rs = preparedStatement.executeQuery();
         if(rs.next()){
             user=new User(username, rs.getString(nameDB), rs.getString(surnameDB));
