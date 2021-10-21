@@ -1,5 +1,6 @@
 package it.polimi.tiw.tiw179.RIA.controllers;
 
+import it.polimi.tiw.tiw179.ErrorMessage;
 import it.polimi.tiw.tiw179.RIA.DAO.UserJSDAO;
 import it.polimi.tiw.tiw179.RIA.beans.UserJS;
 import it.polimi.tiw.tiw179.Utilities;
@@ -41,7 +42,7 @@ public class LoginHandlerJS extends HttpServlet {
 
         if(username==null || username.isEmpty() || passwd==null || passwd.isEmpty()){
             response.setStatus(HttpServletResponse.SC_BAD_REQUEST);
-            response.getWriter().println("Credential must be not null");
+            response.getWriter().println(ErrorMessage.UserDataRequired.getMessage());
             return;
         }
 
@@ -52,7 +53,7 @@ public class LoginHandlerJS extends HttpServlet {
                 user=userJSDAO.match(username, passwd);
                 if(user==null){
                     response.setStatus(HttpServletResponse.SC_UNAUTHORIZED);
-                    response.getWriter().println("Invalid password");
+                    response.getWriter().println(ErrorMessage.UserNotMatch.getMessage());
                     return;
                 }
                 request.getSession().setAttribute("user", user);
@@ -63,11 +64,11 @@ public class LoginHandlerJS extends HttpServlet {
             }
             else{
                 response.setStatus(HttpServletResponse.SC_NOT_FOUND);
-                response.getWriter().println("User not registered");
+                response.getWriter().println(ErrorMessage.UserNotFound.getMessage());
             }
         } catch (SQLException e) {
             response.setStatus(HttpServletResponse.SC_INTERNAL_SERVER_ERROR);
-            response.getWriter().println("Internal server error, retry later");
+            response.getWriter().println(ErrorMessage.QueryNotGood.getMessage());
         }
 
     }

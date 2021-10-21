@@ -4,13 +4,12 @@ public enum ErrorMessage {
 
     Driver("DRIVER ERROR - Can't load database drivers"),
     ConnectionDB("CONNECTION ERROR  - Can't connect to the database"),
-    QueryNotGood("The query is not well formed"),
-    UserNotFound("The user is not listed in our databases"),
+    QueryNotGood("Internal server error, retry later"),
+    UserNotFound("User not registered"),
     UserNotMatch("The password is incorrect"),
+    UserDataRequired("Credentials must be not null"),
     TopicNotFound("Topic you selected is not listed in our databases"),
     TopicNotInt("The father id is not an integer"),
-    UsernameRequired("Username required"),
-    PasswdRequired("Password required"),
     TopicNameMissing("Topic name required"),
     NoMoreTopic("You cannot add more Topic in this section");
 

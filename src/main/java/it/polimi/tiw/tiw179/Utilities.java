@@ -1,5 +1,7 @@
 package it.polimi.tiw.tiw179;
 
+import com.google.gson.Gson;
+import com.google.gson.GsonBuilder;
 import org.eclipse.persistence.internal.jpa.config.converters.EnumeratedImpl;
 import org.thymeleaf.TemplateEngine;
 import org.thymeleaf.templatemode.TemplateMode;
@@ -7,11 +9,16 @@ import org.thymeleaf.templateresolver.ServletContextTemplateResolver;
 
 import javax.servlet.ServletContext;
 import javax.servlet.UnavailableException;
+import javax.servlet.http.HttpServletResponse;
+import java.io.IOException;
+import java.lang.reflect.Type;
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.SQLException;
 
 public class Utilities {
+
+    private static final Gson gson= new GsonBuilder().create();
 
     public static TemplateEngine createTemplateEngine(ServletContext servletContext){
         ServletContextTemplateResolver templateResolver= new ServletContextTemplateResolver(servletContext);
@@ -60,6 +67,13 @@ public class Utilities {
         if(connection!= null){
             connection.close();
         }
+    }
+
+    public static void sendJson(Object obj, HttpServletResponse response) throws IOException {
+        String json= gson.toJson(obj);
+        response.setContentType("application/json");
+        response.setCharacterEncoding("UTF-8");
+        response.getWriter().write(json);
     }
 
 

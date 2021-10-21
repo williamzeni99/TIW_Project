@@ -1,13 +1,13 @@
-package it.polimi.tiw.tiw179.HTMLPure.beans;
+package it.polimi.tiw.tiw179.RIA.beans;
 
 import java.util.ArrayList;
 
-public class Topic {
+public class TopicJS {
     private int id;
     private String name;
-    private ArrayList<Topic> subtopics;
+    private ArrayList<TopicJS> subtopics;
 
-    public Topic(int id, String name){
+    public TopicJS(int id, String name){
         this.id=id;
         this.name=name;
         subtopics= new ArrayList<>();
@@ -21,15 +21,14 @@ public class Topic {
         return name;
     }
 
-    public ArrayList<Topic> getSubtopics() {
+    public ArrayList<TopicJS> getSubtopics() {
         return subtopics;
     }
 
-    public void addsubTopic(Topic topic){
+    public void addsubTopic(TopicJS topic){
         if(subtopics.size()>9){
             throw new IllegalArgumentException();
         }
         subtopics.add(topic);
     }
-
 }

@@ -69,19 +69,14 @@ public class LoginHandler extends HttpServlet {
 
         }
         else {
-            if (loginFom.checkUserError()){
-                loginFom.setError(ErrorMessage.UsernameRequired);
-            }
-            else{
-                loginFom.setError(ErrorMessage.PasswdRequired);
-            }
+            loginFom.setError(ErrorMessage.UserDataRequired);
         }
 
         ServletContext servletContext = getServletContext();
         final WebContext ctx = new WebContext(request, response, servletContext, request.getLocale());
         ctx.setVariable("errorMsg", loginFom.getErrorMessage());
         ctx.setVariable("username", loginFom.getUsername());
-        String path = "/WEB-INF/templates/HTMLPure/LoginPage.html";
+        String path = "/WEB-INF/HTMLPure/LoginPage.html";
         templateEngine.process(path, ctx, response.getWriter());
     }
 
