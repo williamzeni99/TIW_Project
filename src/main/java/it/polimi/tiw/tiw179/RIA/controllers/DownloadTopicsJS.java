@@ -39,7 +39,6 @@ public class DownloadTopicsJS extends HttpServlet {
         try {
             TopicJS topic0= topicJSDAO.getTopics();
             Utilities.sendJson(topic0, response);
-            System.out.println(response.getWriter());
         } catch (SQLException e) {
             response.setStatus(HttpServletResponse.SC_INTERNAL_SERVER_ERROR);
             response.getWriter().println(ErrorMessage.QueryNotGood.getMessage());

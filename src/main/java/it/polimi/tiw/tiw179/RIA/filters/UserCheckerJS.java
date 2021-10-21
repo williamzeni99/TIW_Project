@@ -22,7 +22,7 @@ public class UserCheckerJS implements Filter {
     public void doFilter(ServletRequest request, ServletResponse response, FilterChain chain) throws ServletException, IOException {
         HttpServletRequest req= (HttpServletRequest) request;
         HttpServletResponse res= (HttpServletResponse) response;
-        String path= req.getServletContext().getContextPath()+"/RIA/HomepageJS.html";
+        String path= req.getServletContext().getContextPath()+"/RIA/LoginJS.html";
         System.out.println("Checking user..");
         HttpSession session= req.getSession();
         if (session.isNew() || session.getAttribute("user")==null){

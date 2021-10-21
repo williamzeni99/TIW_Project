@@ -63,7 +63,7 @@
     </filter>
     <filter-mapping>
         <filter-name>UserCheckerJS</filter-name>
-        <servlet-name>LoginHandlerJS</servlet-name>
+        <servlet-name>DownloadTopicsJS</servlet-name>
     </filter-mapping>
 
 </web-app>

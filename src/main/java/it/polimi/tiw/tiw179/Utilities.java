@@ -73,6 +73,7 @@ public class Utilities {
         String json= gson.toJson(obj);
         response.setContentType("application/json");
         response.setCharacterEncoding("UTF-8");
+        response.setStatus(HttpServletResponse.SC_OK);
         response.getWriter().write(json);
     }
 
