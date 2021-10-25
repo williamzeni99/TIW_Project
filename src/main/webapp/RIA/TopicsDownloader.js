@@ -1,11 +1,12 @@
 {
+    let personalMessage, topicContainer, pageeditor= new pageEditor();
 
     window.addEventListener("load", () => {
         if (sessionStorage.getItem("username") == null) {
             window.location.href = "LoginJS.html";
         } else {
-            pageEditor().start(); // initialize the components
-            pageEditor().refresh();
+            pageeditor.start(); // initialize the components
+            //pageEditor().refresh(); todo uncomment
         } // display initial content
     }, false);
 
@@ -18,23 +19,33 @@
 
     function topicShower(topiccontainerElement){
         this.topicContainer= topiccontainerElement;
+        this.printer= function (obj, topicContainer){
+            var node= document.createTextNode(obj.id+". "+obj.name);
+            topicContainer.appendChild(node);
+            topicContainer.appendChild(document.createElement("br"));
+            for (var i=0; i<obj.subtopics.length; i++) {
+                this.printer(obj.subtopics[i], topicContainer);
+            }
+
+        }
         this.show=function (){
             var self= this;
-            makeCall("GET", "DownloadTopicsJS", null, function (req){
+            makeCall("GET", "../DownloadTopicsJS", null, function (req){
                 if (req.readyState == 4 && req.status == 200){
                     var topicstoshow=JSON.parse(req.responseText);
-                    if(topicstoshow.lenght === 0){
+                    if(topicstoshow.length === 0){
                         self.topicContainer.textContent="No Topics yet";
                         return;
                     }
-                    //todo wip rivedere
+                    for(var i=0; i<topicstoshow.length; i++){
+                        self.printer(topicstoshow[i],self.topicContainer);
+                    }
                 }
-                }
-            )
+            })
 
         }
-
     }
+
 
     function pageEditor(){
         this.start=function (){
@@ -50,4 +61,5 @@
         }
 
     }
+
 };
