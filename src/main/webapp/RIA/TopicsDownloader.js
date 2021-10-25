@@ -6,7 +6,7 @@
             window.location.href = "LoginJS.html";
         } else {
             pageeditor.start(); // initialize the components
-            //pageEditor().refresh(); todo uncomment
+            pageeditor.refresh();
         } // display initial content
     }, false);
 
@@ -15,19 +15,11 @@
         this.show=function (){
             messageContainer.textContent= this.username
         }
-    } //todo edit later
+    } //todo edit later for Name Surname better View
 
     function topicShower(topiccontainerElement){
         this.topicContainer= topiccontainerElement;
-        this.printer= function (obj, topicContainer){
-            var node= document.createTextNode(obj.id+". "+obj.name);
-            topicContainer.appendChild(node);
-            topicContainer.appendChild(document.createElement("br"));
-            for (var i=0; i<obj.subtopics.length; i++) {
-                this.printer(obj.subtopics[i], topicContainer);
-            }
 
-        }
         this.show=function (){
             var self= this;
             makeCall("GET", "../DownloadTopicsJS", null, function (req){
@@ -38,14 +30,25 @@
                         return;
                     }
                     for(var i=0; i<topicstoshow.length; i++){
-                        self.printer(topicstoshow[i],self.topicContainer);
+                        printer(topicstoshow[i],self.topicContainer);
                     }
                 }
             })
 
+            var printer = function (obj, topicContainer) {
+                var node = document.createTextNode(obj.id + ". " + obj.name);
+                topicContainer.appendChild(node);
+                topicContainer.appendChild(document.createElement("br"));
+                for (var i = 0; i < obj.subtopics.length; i++) {
+                    printer(obj.subtopics[i], topicContainer);
+                }
+            }
         }
-    }
+    } //It works fine
 
+    function addTopicForm(formId){
+
+    }
 
     function pageEditor(){
         this.start=function (){
@@ -54,6 +57,8 @@
 
             let topicContainer= new topicShower(document.getElementById("topics"));
             topicContainer.show();
+
+            let addForm=new addTopicForm(document.getElementById("formAdd"));
         }
 
         this.refresh=function (){
