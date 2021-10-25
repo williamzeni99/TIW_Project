@@ -9,7 +9,7 @@ public enum ErrorMessage {
     UserNotMatch("The password is incorrect"),
     UserDataRequired("Credentials must be not null"),
     TopicNotFound("Topic you selected is not listed in our databases"),
-    TopicNotInt("The father id is not an integer"),
+    TopicNotInt("The father id is not an integer or is empty"),
     TopicNameMissing("Topic name required"),
     NoMoreTopic("You cannot add more Topic in this section");
 
