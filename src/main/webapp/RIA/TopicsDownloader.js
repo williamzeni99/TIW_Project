@@ -75,7 +75,7 @@
             document.getElementById("sendButton").addEventListener('click', (e) => {
                 var form = self.formContainer;
                 if (form.checkValidity()) {
-                    makeCall("POST", '../AddTopicJS', form,
+                    makeCall("POST", '../AddTopicJS', self.formContainer,
                         function (x) {
                             if (x.readyState == XMLHttpRequest.DONE) {
                                 var message = x.responseText;
@@ -99,8 +99,7 @@
                                         break;
                                 }
                             }
-                        },
-                        false,
+                        }
                     );
                 }
                 else {
@@ -111,7 +110,7 @@
         this.reset= function (){
             document.getElementById("errorMsg").textContent="";
             document.getElementById("idFather").innerHTML='';
-            this.fillOption();
+            //this.fillOption();
             document.getElementById("topicName").textContent="";
         }
     }
