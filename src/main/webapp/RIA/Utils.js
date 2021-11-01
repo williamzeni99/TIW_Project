@@ -11,7 +11,7 @@ function makeCall(method, url, formElement, cback, reset = true) {
     if (formElement == null) {
         req.send();
     } else {
-        var formData= new FormData(formElement);
+        const formData = new FormData(formElement);
         req.send(formData);
     }
     if (formElement !== null && reset === true) {

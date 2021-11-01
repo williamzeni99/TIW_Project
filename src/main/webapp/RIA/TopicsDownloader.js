@@ -55,7 +55,7 @@
         this.selector= document.getElementById("idFather");
         this.fillOption= function (){
             makeCall("GET", "../GetOptionsTopicJS", self.formContainer, function (req){
-                if(req.readyState==4 && req.status==200){
+                if(req.readyState==XMLHttpRequest.DONE && req.status==200){
                     var ids=JSON.parse(req.responseText);
                     var option= document.createElement("option");
                     option.text="/";
@@ -71,6 +71,7 @@
 
             }, false);
         }
+
         this.addButtonClick= function (){
             document.getElementById("sendButton").addEventListener('click', (e) => {
                 var form = self.formContainer;
