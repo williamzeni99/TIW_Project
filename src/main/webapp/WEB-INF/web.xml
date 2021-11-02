@@ -64,6 +64,8 @@
     <filter-mapping>
         <filter-name>UserCheckerJS</filter-name>
         <servlet-name>DownloadTopicsJS</servlet-name>
+        <servlet-name>GetOptionsTopicJS</servlet-name>
+        <servlet-name>AddTopicJS</servlet-name>
     </filter-mapping>
 
 </web-app>

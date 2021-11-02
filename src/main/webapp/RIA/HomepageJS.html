@@ -8,12 +8,15 @@
 </head>
 <body>
 <h1>Homepage</h1>
-<p>Hi! Nice to see you again <span id="username">Name Surname</span></p>
+<p>Hi! Nice to see you again <span id="username"></span></p>
 
 <!-- Print Topics -->
+<h2>Topics</h2>
 <div id="topics"></div>
+<br>
 
 <!-- New Topic -->
+<h2>Add New Topic</h2>
 <div>
     <form id="formAdd" action="#">
         <fieldset>
@@ -25,6 +28,15 @@
             <input id="sendButton" type="button" value="send">
             <p id="errorMsg"></p>
         </fieldset>
+    </form>
+</div>
+
+<!--Logout Section-->
+<br>
+<div>
+    <span> Logout whenever you want. </span>
+    <form method="get" action="../LogoutJS" id="logoutForm">
+        <input type="button" id="logoutButton" value="Logout">
     </form>
 </div>
 

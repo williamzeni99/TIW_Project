@@ -13,6 +13,7 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 
 @WebServlet(name = "GetOptionsTopicJS", value = "/GetOptionsTopicJS")
+@MultipartConfig
 public class GetOptionsTopicJS extends HttpServlet {
 
     private Connection connection;

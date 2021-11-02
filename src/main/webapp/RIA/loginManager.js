@@ -1,6 +1,7 @@
 (function() { // avoid variables ending up in the global scope
 
     document.getElementById("loginButton").addEventListener('click', (e) => {
+        e.preventDefault();
         var form = e.target.closest("form");
         if (form.checkValidity()) {
             makeCall("POST", '../LoginHandlerJS', e.target.closest("form"),

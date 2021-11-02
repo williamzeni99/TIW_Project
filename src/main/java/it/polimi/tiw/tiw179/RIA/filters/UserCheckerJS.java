@@ -26,8 +26,7 @@ public class UserCheckerJS implements Filter {
         System.out.println("Checking user..");
         HttpSession session= req.getSession();
         if (session.isNew() || session.getAttribute("user")==null){
-            res.setStatus(HttpServletResponse.SC_FORBIDDEN);
-            res.setHeader("Location", path);
+            res.sendRedirect(path);
             System.out.println("DONE - FAILED");
             return;
         }
