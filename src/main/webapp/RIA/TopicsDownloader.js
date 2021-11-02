@@ -14,7 +14,7 @@
         this.show=function (){
             messageContainer.textContent= this.username
         }
-    } //todo edit later for Name Surname better View
+    }
 
     function topicShower(topiccontainerElement){
         this.topicContainer= topiccontainerElement;
@@ -49,6 +49,9 @@
                     printer(obj.subtopics[i], ul2);
                 }
             }
+
+            makeDraggable();
+
         }
 
         this.reset=function () {
