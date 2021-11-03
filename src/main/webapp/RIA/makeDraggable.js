@@ -10,12 +10,13 @@ function makeDraggable(){
         elements[i].addEventListener("drop", drop); //change position of dragged element using the referenced element
     }
 
+    let startE;
     /*
     The dragstart event is fired when the user starts
     dragging an element (if it is draggable=True)
     */
     function dragStart(event){
-
+        startE=event.target.closest("li")
     }
 
     /*
@@ -44,7 +45,21 @@ function makeDraggable(){
         The drop event is fired when an element or text selection is dropped on a valid drop target.
     */
     function drop(event){
+        event.stopImmediatePropagation();
+        var dest = event.target.closest("li");
+        var txt= "Do you wanna move topic "+ startE.getAttribute("id") + " into topic "+ dest.getAttribute("id")+ "?";
 
+        if(confirm(txt)){
+            //updateTree(startE.getAttribute("id"), dest.getAttribute("id"));
+        }
+        else{
+            reset(dest);
+        }
+
+    }
+
+    function reset(dest){
+        dest.className="notselected";
     }
 
 

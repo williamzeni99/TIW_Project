@@ -34,6 +34,8 @@
                     for(var i=0; i<topicstoshow.length; i++){
                         printer(topicstoshow[i],ul);
                     }
+
+                    makeDraggable();
                 }
             });
 
@@ -42,6 +44,8 @@
                 var li= document.createElement("li");
                 ul.appendChild(li);
                 li.appendChild(node);
+                li.setAttribute("class", "draggable");
+                li.setAttribute("id", obj.id)
 
                 for (var i = 0; i < obj.subtopics.length; i++) {
                     var ul2= document.createElement("ul");
@@ -50,7 +54,7 @@
                 }
             }
 
-            makeDraggable();
+
 
         }
 
