@@ -1,6 +1,8 @@
 {
     let personalMessage, topicContainer, addForm, logout, pageeditor= new pageEditor();
 
+    let modified=[];
+
     window.addEventListener("load", () => {
         if (sessionStorage.getItem("username") == null) {
             window.location.href = "LoginJS.html";
@@ -16,11 +18,16 @@
         }
     }
 
+    function StoreData(data){
+        modified.push(data);
+    }
+
     function topicShower(topiccontainerElement){
         this.topicContainer= topiccontainerElement;
 
         this.show=function (){
             var self= this;
+
             makeCall("GET", "../DownloadTopicsJS", null, function (req){
                 if (req.readyState == 4 && req.status == 200){
                     var topicstoshow=JSON.parse(req.responseText);
@@ -30,12 +37,12 @@
                     }
 
                     var ul= document.createElement("ul");
-                    self.topicContainer.appendChild(ul)
+                    self.topicContainer.appendChild(ul);
                     for(var i=0; i<topicstoshow.length; i++){
                         printer(topicstoshow[i],ul);
                     }
 
-                    makeDraggable();
+                    makeDraggable(document.getElementsByClassName("draggable"));
                 }
             });
 
@@ -53,7 +60,6 @@
                     printer(obj.subtopics[i], ul2);
                 }
             }
-
 
 
         }

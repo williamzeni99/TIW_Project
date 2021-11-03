@@ -1,16 +1,20 @@
 
 
-function makeDraggable(){
-    var elements = document.getElementsByClassName("draggable")
+function makeDraggable(elements){
+
     for (let i = elements.length - 1; i >= 0; i--) {
-        elements[i].draggable = true;
-        elements[i].addEventListener("dragstart", dragStart); //save dragged element reference
-        elements[i].addEventListener("dragover", dragOver); // change color of reference element to red
-        elements[i].addEventListener("dragleave", dragLeave); // change color of reference element to black
-        elements[i].addEventListener("drop", drop); //change position of dragged element using the referenced element
+        doDraggable(elements[i]);
     }
 
     let startE;
+
+    function doDraggable(element){
+        element.draggable = true;
+        element.addEventListener("dragstart", dragStart); //save dragged element reference
+        element.addEventListener("dragover", dragOver); // change color of reference element to red
+        element.addEventListener("dragleave", dragLeave); // change color of reference element to black
+        element.addEventListener("drop", drop); //change position of dragged element using the referenced element
+    }
     /*
     The dragstart event is fired when the user starts
     dragging an element (if it is draggable=True)
@@ -41,6 +45,24 @@ function makeDraggable(){
         dest.className = "notselected";
     }
 
+    function updateTree(start_id, dest_id) {
+        var dest= document.getElementById(dest_id);
+        let element=dest;
+        for(var i=1; i<10 && element!=null; i++){
+            let idx=dest_id*10+i;
+            element=document.getElementById(idx);
+        }
+        var newId=dest_id*10+(i-1);
+        var ul= document.createElement("ul");
+        var li= document.createElement("li")
+        li.textContent=newId+"."+document.getElementById(start_id).textContent.split('.')[1];
+        li.id=newId;
+        doDraggable(li);
+        ul.appendChild(li)
+        dest.appendChild(ul);
+        document.getElementById(start_id).closest("ul").innerHTML='';
+    }
+
     /*
         The drop event is fired when an element or text selection is dropped on a valid drop target.
     */
@@ -50,7 +72,8 @@ function makeDraggable(){
         var txt= "Do you wanna move topic "+ startE.getAttribute("id") + " into topic "+ dest.getAttribute("id")+ "?";
 
         if(confirm(txt)){
-            //updateTree(startE.getAttribute("id"), dest.getAttribute("id"));
+            reset(dest);
+            updateTree(startE.getAttribute("id"), dest.getAttribute("id"));
         }
         else{
             reset(dest);
@@ -58,8 +81,8 @@ function makeDraggable(){
 
     }
 
-    function reset(dest){
-        dest.className="notselected";
+    function reset(element){
+        element.className="notselected";
     }
 
 
