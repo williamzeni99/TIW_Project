@@ -2,6 +2,7 @@
     let personalMessage, topicContainer, addForm, logout, pageeditor= new pageEditor();
 
     let modified=[];
+    let dataTopics;
 
     window.addEventListener("load", () => {
         if (sessionStorage.getItem("username") == null) {
@@ -22,6 +23,15 @@
         modified.push(data);
     }
 
+    function getDataTopics(){
+        return dataTopics;
+    }
+
+    function setDataTopics(newData){
+        dataTopics=newData;
+    }
+
+
     function topicShower(topiccontainerElement){
         this.topicContainer= topiccontainerElement;
 
@@ -31,6 +41,7 @@
             makeCall("GET", "../DownloadTopicsJS", null, function (req){
                 if (req.readyState == 4 && req.status == 200){
                     var topicstoshow=JSON.parse(req.responseText);
+                    dataTopics=topicstoshow;
                     if(topicstoshow.length === 0){
                         self.topicContainer.textContent="No Topics yet";
                         return;
@@ -46,27 +57,38 @@
                 }
             });
 
-            var printer = function (obj, ul) {
-                var node = document.createTextNode(obj.id + ". " + obj.name);
-                var li= document.createElement("li");
-                ul.appendChild(li);
-                li.appendChild(node);
-                li.setAttribute("class", "draggable");
-                li.setAttribute("id", obj.id)
-
-                for (var i = 0; i < obj.subtopics.length; i++) {
-                    var ul2= document.createElement("ul");
-                    li.appendChild(ul2);
-                    printer(obj.subtopics[i], ul2);
-                }
-            }
-
-
         }
 
-        this.reset=function () {
-            document.getElementById("topics").innerHTML='';
+        function printer (obj, ul) {
+            var node = document.createTextNode(obj.id + ". " + obj.name);
+            var li= document.createElement("li");
+            ul.appendChild(li);
+            li.appendChild(node);
+            li.setAttribute("class", "draggable");
+            li.setAttribute("id", obj.id)
+
+            for (var i = 0; i < obj.subtopics.length; i++) {
+                var ul2= document.createElement("ul");
+                li.appendChild(ul2);
+                printer(obj.subtopics[i], ul2);
+            }
+        }
+
+        this.resetServerAsking=function () {
+            this.topicContainer.innerHTML='';
             this.show();
+        }
+
+        this.resetLocally= function (){
+            this.topicContainer.innerHTML='';
+            var ul= document.createElement("ul");
+            this.topicContainer.appendChild(ul);
+            for(var i=0; i<dataTopics.length; i++){
+                printer(dataTopics[i],ul);
+            }
+
+            makeDraggable(document.getElementsByClassName("draggable"));
+
         }
 
 
@@ -170,7 +192,7 @@
 
         this.refresh=function (){
             addForm.reset();
-            topicContainer.reset();
+            topicContainer.resetServerAsking();
         }
 
     }

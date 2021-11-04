@@ -7,6 +7,7 @@ function makeDraggable(elements){
     }
 
     let startE;
+    let dataTopics= getDataTopics();
 
     function doDraggable(element){
         element.draggable = true;
@@ -47,20 +48,33 @@ function makeDraggable(elements){
 
     function updateTree(start_id, dest_id) {
         var dest= document.getElementById(dest_id);
-        let element=dest;
-        for(var i=1; i<10 && element!=null; i++){
-            let idx=dest_id*10+i;
-            element=document.getElementById(idx);
+
+        function maxID (id_Father){
+            let x=id_Father;
+            for(var i=1; i<10 && x!=null; i++){
+                let idx=dest_id*10+i;
+                x=document.getElementById(idx);
+            }
+            var newId=dest_id*10+(i-1);
+            return newId;
         }
-        var newId=dest_id*10+(i-1);
-        var ul= document.createElement("ul");
-        var li= document.createElement("li")
-        li.textContent=newId+"."+document.getElementById(start_id).textContent.split('.')[1];
-        li.id=newId;
-        doDraggable(li);
-        ul.appendChild(li)
-        dest.appendChild(ul);
-        document.getElementById(start_id).closest("ul").innerHTML='';
+
+        if(document.getElementById(start_id)!=null){
+            var newId= maxID(dest_id);
+            var ul= document.createElement("ul");
+            var li= document.createElement("li")
+            li.textContent=newId+"."+document.getElementById(start_id).textContent.split('.')[1];
+            li.id=newId;
+            doDraggable(li);
+            ul.appendChild(li)
+            dest.appendChild(ul);
+            for (let i=1; i<10; i++){
+                let new_start= start_id*10+i;
+                updateTree(new_start, newId);
+            }
+        }else{
+            //document.getElementById(start_id).closest("ul").innerHTML='';
+        }
     }
 
     /*
