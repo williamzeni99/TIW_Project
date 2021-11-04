@@ -82,8 +82,8 @@
             this.topicContainer.innerHTML='';
             var ul= document.createElement("ul");
             this.topicContainer.appendChild(ul);
-            for(var i=0; i<dataTopics.length; i++){
-                printer(dataTopics[i],ul);
+            for(var i=0; i<dataTopics.subtopics.length; i++){
+                printer(dataTopics.subtopics[i],ul);
             }
 
             makeDraggable(document.getElementsByClassName("draggable"));

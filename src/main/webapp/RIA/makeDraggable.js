@@ -50,24 +50,40 @@ function makeDraggable(elements){
         dest.className = "notselected";
     }
 
+    /*Returns the first id free, if there is no space it returns -1*/
+    function firstIDFree (id_Father){
+        let x= id_Father.split('');
+        let data= dataTopics;
+
+        for (const i of x){
+            data=data.subtopics[i-1];
+        }
+        var fatherid=data.id;
+        data=data.subtopics;
+        for(let i=0; i<data.length && i<9; i++){
+            var newId=i+1+fatherid*10;
+            if(data[i].id!=newId){
+                return newId;
+            }
+        }
+
+        newId=fatherid*10+data.length+1;
+
+        if(newId%10===0){
+            return -1;
+        }
+        else{
+            return newId;
+        }
+    }
+
     function updateTree(start_id, dest_id) {
         var dest= document.getElementById(dest_id);
 
-        function maxID (id_Father){
-            let x= id_Father.splitText('');
-            let data= dataTopics;
-
-
-            for(var i=1; i<10 && x!=null; i++){
-                let idx=dest_id*10+i;
-                x=document.getElementById(idx);
-            }
-            var newId=dest_id*10+(i-1);
-            return newId;
-        }
 
         if(document.getElementById(start_id)!=null){
-            var newId= maxID(dest_id);
+            var newId= firstIDFree(dest_id);
+            if(newId<0) return -1;
             var ul= document.createElement("ul");
             var li= document.createElement("li")
             li.textContent=newId+"."+document.getElementById(start_id).textContent.split('.')[1];
@@ -95,7 +111,11 @@ function makeDraggable(elements){
         if(confirm(txt)){
             reset(dest);
             setDataTopics(getDataTopics());
-            //updateTree(startE.getAttribute("id"), dest.getAttribute("id"));
+            let x= updateTree(startE.getAttribute("id"), dest.getAttribute("id"));
+            if(x===-1){
+                document.getElementById("errorTopicMsg").textContent="You cannot move this topic here. Size limit reached.";
+            }
+            new topicShower(document.getElementById("topics")).resetLocally();
         }
         else{
             reset(dest);
