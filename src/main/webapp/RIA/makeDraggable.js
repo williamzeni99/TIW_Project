@@ -7,7 +7,11 @@ function makeDraggable(elements){
     }
 
     let startE;
-    let dataTopics= getDataTopics();
+    let dataTopics;
+
+    function setDataTopics(data){
+        dataTopics=data;
+    }
 
     function doDraggable(element){
         element.draggable = true;
@@ -50,7 +54,10 @@ function makeDraggable(elements){
         var dest= document.getElementById(dest_id);
 
         function maxID (id_Father){
-            let x=id_Father;
+            let x= id_Father.splitText('');
+            let data= dataTopics;
+
+
             for(var i=1; i<10 && x!=null; i++){
                 let idx=dest_id*10+i;
                 x=document.getElementById(idx);
@@ -87,7 +94,8 @@ function makeDraggable(elements){
 
         if(confirm(txt)){
             reset(dest);
-            updateTree(startE.getAttribute("id"), dest.getAttribute("id"));
+            setDataTopics(getDataTopics());
+            //updateTree(startE.getAttribute("id"), dest.getAttribute("id"));
         }
         else{
             reset(dest);

@@ -26,7 +26,6 @@
     function getDataTopics(){
         return dataTopics;
     }
-
     function setDataTopics(newData){
         dataTopics=newData;
     }
@@ -41,16 +40,16 @@
             makeCall("GET", "../DownloadTopicsJS", null, function (req){
                 if (req.readyState == 4 && req.status == 200){
                     var topicstoshow=JSON.parse(req.responseText);
-                    dataTopics=topicstoshow;
-                    if(topicstoshow.length === 0){
+                    setDataTopics(topicstoshow);
+                    if(topicstoshow.subtopics.length === 0){
                         self.topicContainer.textContent="No Topics yet";
                         return;
                     }
 
                     var ul= document.createElement("ul");
                     self.topicContainer.appendChild(ul);
-                    for(var i=0; i<topicstoshow.length; i++){
-                        printer(topicstoshow[i],ul);
+                    for(var i=0; i<topicstoshow.subtopics.length; i++){
+                        printer(topicstoshow.subtopics[i],ul);
                     }
 
                     makeDraggable(document.getElementsByClassName("draggable"));
