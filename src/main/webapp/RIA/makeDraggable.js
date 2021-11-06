@@ -50,24 +50,19 @@ function makeDraggable(elements){
         dest.className = "notselected";
     }
 
-    /*Returns the first id free, if there is no space it returns -1*/
+    /*Returns the first id free, if there is no space it returns -1, if there is not topic returns -2*/
     function firstIDFree (id_Father){
-        let x= id_Father.toString().split('');
-        let data= dataTopics;
-
-        for (const i of x){
-            data=data.subtopics[i-1];
-        }
-        var fatherid=data.id;
+        var data=findTopic(id_Father);
+        if(data===-1) return -2;
         data=data.subtopics;
         for(let i=0; i<data.length && i<9; i++){
-            var newId=i+1+fatherid*10;
+            var newId=i+1+id_Father*10;
             if(data[i].id!=newId){
                 return newId;
             }
         }
 
-        newId=fatherid*10+data.length+1;
+        newId=id_Father*10+data.length+1;
 
         if(newId%10===0){
             return -1;
@@ -77,35 +72,57 @@ function makeDraggable(elements){
         }
     }
 
-    function maxID (id_Father){
-        let x=id_Father;
-        for(var i=1; i<10 && x!=null; i++){
-            var idx=id_Father*10+i;
-            x=document.getElementById(idx);
+    /**returns the topic object. returns -1 if it doesn't find the topic in the right position*/
+    function findTopic(id){
+        let x= id.toString().split('');
+        let data= dataTopics;
+
+        for (const i of x){
+            data=data.subtopics[i-1];
         }
-        var newId=id_Father*10+(i-1);
-        return newId;
+
+        if(data.id==id){
+            return data;
+        }
+        else{
+            return -1;
+        }
     }
 
     function updateTree(start_id, dest_id) {
-        var dest= document.getElementById(dest_id);
+        moveDest(start_id, dest_id);
+        reorderIds(start_id/10);
+    }
+
+    function Topic(id, name){
+        var self= this;
+        this.id= id;
+        this.name=name;
+        this.subtopics= new Array();
 
 
-        if(document.getElementById(start_id)!=null) {
-            var newId = maxID(dest_id);
-            if (newId < 0) return -1;
-            var ul = document.createElement("ul");
-            var li = document.createElement("li");
-            li.textContent = newId + "." + document.getElementById(start_id).childNodes.item(0).textContent.split('.')[1];
-            li.id = newId.toString();
-            doDraggable(li);
-            ul.appendChild(li)
-            dest.appendChild(ul);
-            for (let i = 1; i < 10; i++) {
-                let new_start = start_id * 10 + i;
-                updateTree(new_start, newId);
-            }
+        this.getLastDigit= function (){
+            let x=self.id.toString().split('');
+            return x[x.length-1];
         }
+
+    }
+
+    function moveDest(start_id, dest_id){
+        let newId= firstIDFree(dest_id);
+        let startTopic= findTopic(start_id);
+        let newTopic= new Topic(newId, startTopic.name);
+
+        let destTopic=findTopic(dest_id);
+        destTopic.subtopics[newTopic.getLastDigit()-1]=newTopic;
+        for(let i=0; i<9 && startTopic.subtopics[i]!=null; i++){
+            moveDest(startTopic.subtopics[i].id, newTopic.id);
+        }
+    }
+
+    /**Reorders subtopics ids*/
+    function reorderIds(){
+
     }
 
     /*
@@ -123,8 +140,12 @@ function makeDraggable(elements){
             if(x===-1){
                 document.getElementById("errorTopicMsg").textContent="You cannot move this topic here. Size limit reached.";
             }
-            startE.closest("ul").remove();
-            //new topicShower(document.getElementById("topics")).resetLocally();
+            if(x===-2){
+                document.getElementById("errorTopicMsg").textContent="Somenthing graphical went wrong. ";
+
+            }
+           // startE.closest("ul").remove();
+            new topicShower(document.getElementById("topics")).resetLocally();
         }
         else{
             reset(dest);
