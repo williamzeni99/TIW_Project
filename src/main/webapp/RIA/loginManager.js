@@ -4,7 +4,7 @@
         e.preventDefault();
         var form = e.target.closest("form");
         if (form.checkValidity()) {
-            makeCall("POST", '../LoginHandlerJS', e.target.closest("form"),
+            sendFormData("POST", '../LoginHandlerJS', e.target.closest("form"),
                 function(x) {
                     if (x.readyState == XMLHttpRequest.DONE) {
                         var message = x.responseText;

@@ -6,3 +6,11 @@
     color: red;
 }
 
+.hide{
+    display: none;
+}
+
+.normaldiv{
+    color: black;
+}
+

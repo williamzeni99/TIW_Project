@@ -4,6 +4,8 @@
     let modified=[];
     let dataTopics;
 
+
+
     window.addEventListener("load", () => {
         if (sessionStorage.getItem("username") == null) {
             window.location.href = "LoginJS.html";
@@ -37,7 +39,7 @@
         this.show=function (){
             var self= this;
 
-            makeCall("GET", "../DownloadTopicsJS", null, function (req){
+            sendFormData("GET", "../DownloadTopicsJS", null, function (req){
                 if (req.readyState == 4 && req.status == 200){
                     var topicstoshow=JSON.parse(req.responseText);
                     setDataTopics(topicstoshow);
@@ -75,6 +77,8 @@
 
         this.resetServerAsking=function () {
             this.topicContainer.innerHTML='';
+            modified=[];
+            checkStoreDataButton();
             this.show();
         }
 
@@ -87,7 +91,45 @@
             }
 
             makeDraggable(document.getElementsByClassName("draggable"));
+            checkStoreDataButton();
 
+        }
+
+        function checkStoreDataButton(){
+            if(modified.length>0){
+                document.getElementById("storeData").closest("div").className="normaldiv";
+                document.getElementById("storeData").addEventListener("click", (e)=>{
+                    sendJsonObject("POST", "../StoreData", modified, function (req){
+                        if(req.readyState==XMLHttpRequest.DONE){
+                            var message=req.responseText;
+
+                            switch (req.status) {
+                                case 200: //ok
+                                    pageeditor.refresh();
+                                    break;
+                                case 400: // bad request
+                                    document.getElementById("errorStoreMsg").textContent = message;
+                                    break;
+                                case 401: // unauthorized
+                                    document.getElementById("errorStoreMsg").textContent = message;
+                                    break;
+                                case 403: //not found
+                                    document.getElementById("errorStoreMsg").textContent = message;
+                                    break;
+                                case 500: // server error
+                                    document.getElementById("errorStoreMsg").textContent = message;
+                                    break;
+                                default:
+                                    break;
+                            }
+                        }
+
+                    });
+                });
+            }
+            else{
+                document.getElementById("storeData").closest("div").className="hide";
+            }
         }
 
 
@@ -99,7 +141,7 @@
         this.pageEditor= pageEditor;
         this.selector= document.getElementById("idFather");
         this.fillOption= function (){
-            makeCall("GET", "../GetOptionsTopicJS", self.formContainer, function (req){
+            sendFormData("GET", "../GetOptionsTopicJS", self.formContainer, function (req){
                 if(req.readyState==XMLHttpRequest.DONE && req.status==200){
                     var ids=JSON.parse(req.responseText);
                     var option= document.createElement("option");
@@ -122,7 +164,7 @@
                 e.preventDefault();
                 var form = self.formContainer;
                 if (form.checkValidity()) {
-                    makeCall("POST", '../AddTopicJS', self.formContainer,
+                    sendFormData("POST", '../AddTopicJS', self.formContainer,
                         function (x) {
                             if (x.readyState == XMLHttpRequest.DONE) {
                                 var message = x.responseText;

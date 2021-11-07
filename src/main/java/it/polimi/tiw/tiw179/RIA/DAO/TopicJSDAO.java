@@ -90,4 +90,59 @@ public class TopicJSDAO {
         }
         return x*10+i;
     }
+
+    /**Actually it moves all father's subtopics to a new directory */
+    public void moveTopic(int idToMove, int idWhereToMove) throws SQLException {
+        String query="Select idFather from Topic where id=?";
+        PreparedStatement preparedStatement= connection.prepareStatement(query);
+        preparedStatement.setInt(1, idToMove);
+        ResultSet set=preparedStatement.executeQuery();
+        set.next();
+        int oldFather= set.getInt("idFather");
+
+        //get the father directory that then has to be updated
+
+        String query2= "UPDATE Topic SET id = ?, idFather=? WHERE (id = ?)";
+        int newid=getNextValue(idWhereToMove);
+        preparedStatement=connection.prepareStatement(query2);
+        preparedStatement.setInt(1,newid);
+        preparedStatement.setInt(2,idWhereToMove);
+        preparedStatement.setInt(3,idToMove);
+        preparedStatement.executeUpdate();
+        //first dir id updated
+
+        updateSons(idToMove,newid);
+        updateIds(oldFather, idToMove);
+    }
+
+    private void updateSons(int exId, int newId) throws SQLException {
+        ResultSet set=getSons(exId);
+
+        while (set.next()){
+            String query= "update Topic set id=?, idFather=? where id=?";
+            PreparedStatement preparedStatement=connection.prepareStatement(query);
+            int nextid=getNextValue(newId);
+            preparedStatement.setInt(1, nextid);
+            preparedStatement.setInt(2, newId);
+            preparedStatement.setInt(3, set.getInt("id"));
+            preparedStatement.executeUpdate();
+            updateSons(set.getInt("id"), nextid);
+        }
+    }
+
+    private void updateIds(int oldFather, int idToMove) throws SQLException {
+        ResultSet set=getSons(oldFather);
+        while(set.next()){
+            if(set.getInt("id")>idToMove){
+                String query= "update Topic set id=?, idFather=? where id=?";
+                PreparedStatement preparedStatement=connection.prepareStatement(query);
+                int nextid=getNextValue(oldFather);
+                preparedStatement.setInt(1, nextid);
+                preparedStatement.setInt(2, oldFather);
+                preparedStatement.setInt(3, set.getInt("id"));
+                preparedStatement.executeUpdate();
+                updateSons(set.getInt("id"), nextid);
+            }
+        }
+    }
 }

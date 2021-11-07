@@ -74,8 +74,9 @@ function makeDraggable(elements){
 
     /**returns the topic object. returns -1 if it doesn't find the topic in the right position*/
     function findTopic(id){
-        let x= id.toString().split('');
         let data= dataTopics;
+        if(id==0) return data;
+        let x= id.toString().split('');
 
         for (const i of x){
             data=data.subtopics[i-1];
@@ -101,6 +102,7 @@ function makeDraggable(elements){
         let datas=data.subtopics;
         datas.splice(getLastDigit(start_id)-1, 1);
         reorderIds(data);
+        StoreData({start_id,dest_id});
     }
 
     function Topic(id, name){
@@ -151,7 +153,6 @@ function makeDraggable(elements){
                 document.getElementById("errorTopicMsg").textContent="Somenthing graphical went wrong. ";
 
             }
-           // startE.closest("ul").remove();
             new topicShower(document.getElementById("topics")).resetLocally();
         }
         else{
