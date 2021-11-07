@@ -89,46 +89,53 @@ function makeDraggable(elements){
         }
     }
 
+    function getLastDigit (id) {
+        let x = id.toString().split('');
+        return x[x.length - 1];
+    }
+
     function updateTree(start_id, dest_id) {
-        moveDest(start_id, dest_id);
-        reorderIds(start_id/10);
+        let x= moveDest(start_id, dest_id);
+        if(x<0) return x;
+        let data=findTopic(Math.floor(start_id/10));
+        let datas=data.subtopics;
+        datas.splice(getLastDigit(start_id)-1, 1);
+        reorderIds(data);
     }
 
     function Topic(id, name){
-        var self= this;
         this.id= id;
         this.name=name;
         this.subtopics= new Array();
-
-
-        this.getLastDigit= function (){
-            let x=self.id.toString().split('');
-            return x[x.length-1];
-        }
-
     }
 
     function moveDest(start_id, dest_id){
         let newId= firstIDFree(dest_id);
+        if(newId<0) return newId;
         let startTopic= findTopic(start_id);
         let newTopic= new Topic(newId, startTopic.name);
 
         let destTopic=findTopic(dest_id);
-        destTopic.subtopics[newTopic.getLastDigit()-1]=newTopic;
+        destTopic.subtopics[getLastDigit(newTopic.id)-1]=newTopic;
         for(let i=0; i<9 && startTopic.subtopics[i]!=null; i++){
             moveDest(startTopic.subtopics[i].id, newTopic.id);
         }
     }
 
     /**Reorders subtopics ids*/
-    function reorderIds(){
-
+    function reorderIds(data){
+        let subs=data.subtopics;
+        for(let i=0; i<subs.length; i++){
+            subs[i].id=data.id*10+i+1;
+            reorderIds(subs[i]);
+        }
     }
 
     /*
         The drop event is fired when an element or text selection is dropped on a valid drop target.
     */
     function drop(event){
+        document.getElementById("errorTopicMsg").textContent="";
         event.stopImmediatePropagation();
         var dest = event.target.closest("li");
         var txt= "Do you wanna move topic "+ startE.getAttribute("id") + " into topic "+ dest.getAttribute("id")+ "?";
