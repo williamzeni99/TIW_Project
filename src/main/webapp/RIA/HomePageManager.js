@@ -1,57 +1,50 @@
 {
-    let personalMessage, topicContainer, addForm, logout, pageeditor= new pageEditor();
-
-    let modified=[];
-    let dataTopics;
-
-
+    let personalMessage, topicContainer, addForm, logout, pageManager= new pageEditor();
 
     window.addEventListener("load", () => {
         if (sessionStorage.getItem("username") == null) {
             window.location.href = "LoginJS.html";
         } else {
-            pageeditor.start(); // initialize the components
+            pageManager.start();
         } // display initial content
     }, false);
 
-    function UserMessage(username, messageContainer){
-        this.username=username;
-        this.show=function (){
-            messageContainer.textContent= this.username
+    function RESET(remote){
+        if(remote===true){
+            pageManager.refresh();
+        }
+        else{
+            pageManager.resetLocally();
         }
     }
 
-    function StoreData(data){
-        modified.push(data);
+    /**Container for a classical Welcome user message*/
+    function UserMessage(username, messageContainer){
+        this.username=username;
+        this.txt="Hi! Nice to see you again";
+        this.show=function (){
+            messageContainer.textContent= this.txt +" "+ this.username;
+        }
     }
-
-    function getDataTopics(){
-        return dataTopics;
-    }
-    function setDataTopics(newData){
-        dataTopics=newData;
-    }
-
 
     function topicShower(topiccontainerElement){
         this.topicContainer= topiccontainerElement;
 
         this.show=function (){
-            var self= this;
-
+            this.self=this;
             sendFormData("GET", "../DownloadTopicsJS", null, function (req){
                 if (req.readyState == 4 && req.status == 200){
-                    var topicstoshow=JSON.parse(req.responseText);
-                    setDataTopics(topicstoshow);
-                    if(topicstoshow.subtopics.length === 0){
-                        self.topicContainer.textContent="No Topics yet";
+                    let topics=JSON.parse(req.responseText);
+                    setDataTopics(topics);
+                    if(topics.subtopics.length === 0){
+                        this.self.topicContainer.textContent="No Topics yet"; //todo check this part
                         return;
                     }
 
-                    var ul= document.createElement("ul");
-                    self.topicContainer.appendChild(ul);
-                    for(var i=0; i<topicstoshow.subtopics.length; i++){
-                        printer(topicstoshow.subtopics[i],ul);
+                    let ul= document.createElement("ul");
+                    this.self.topicContainer.appendChild(ul);
+                    for(let i=0; i<topics.subtopics.length; i++){
+                        printer(topics.subtopics[i],ul);
                     }
 
                     makeDraggable(document.getElementsByClassName("draggable"));
@@ -75,19 +68,18 @@
             }
         }
 
-        this.resetServerAsking=function () {
+        this.RemoteReset=function () {
             this.topicContainer.innerHTML='';
-            modified=[];
             checkStoreDataButton();
             this.show();
         }
 
-        this.resetLocally= function (){
+        this.LocalReset= function (){
             this.topicContainer.innerHTML='';
-            var ul= document.createElement("ul");
+            let ul= document.createElement("ul");
             this.topicContainer.appendChild(ul);
-            for(var i=0; i<dataTopics.subtopics.length; i++){
-                printer(dataTopics.subtopics[i],ul);
+            for(let i=0; i<getDataTopics().subtopics.length; i++){
+                printer(getDataTopics().subtopics[i],ul);
             }
 
             makeDraggable(document.getElementsByClassName("draggable"));
@@ -96,26 +88,20 @@
         }
 
         function checkStoreDataButton(){
-            if(modified.length>0){
+            if(getChanges().length>0){
                 document.getElementById("storeData").closest("div").className="normaldiv";
                 document.getElementById("storeData").addEventListener("click", (e)=>{
                     e.stopImmediatePropagation();
-                    sendJsonObject("POST", "../StoreData", modified, function (req){
+                    sendJsonObject("POST", "../StoreData", getChanges(), function (req){
                         if(req.readyState==XMLHttpRequest.DONE){
-                            var message=req.responseText;
+                            let message=req.responseText;
 
                             switch (req.status) {
                                 case 200: //ok
-                                    pageeditor.refresh();
+                                    RESET(true);
                                     window.alert("Your changes were correctly saved.");
                                     break;
                                 case 400: // bad request
-                                    document.getElementById("errorStoreMsg").textContent = message;
-                                    break;
-                                case 401: // unauthorized
-                                    document.getElementById("errorStoreMsg").textContent = message;
-                                    break;
-                                case 403: //not found
                                     document.getElementById("errorStoreMsg").textContent = message;
                                     break;
                                 case 500: // server error
@@ -216,10 +202,11 @@
 
     }
 
-    function logoutAction(){
+    function logoutAction(button){
+        this.button= button
 
         this.addButton= function (){
-            document.getElementById("logoutButton").addEventListener("click", (e)=>{
+            this.button.addEventListener("click", (e)=>{
                 sessionStorage.clear();
                 e.target.closest("form").submit(function (){return true});
             });
@@ -238,15 +225,19 @@
             addForm.fillOption();
             addForm.addButtonClick();
 
-            logout= new logoutAction();
+            logout= new logoutAction(document.getElementById("logoutButton"));
             logout.addButton();
         }
 
         this.refresh=function (){
             addForm.reset();
-            topicContainer.resetServerAsking();
+            topicContainer.RemoteReset();
+        }
+
+        this.resetLocally=function (){
+            topicContainer.LocalReset();
         }
 
     }
 
-};
+}
