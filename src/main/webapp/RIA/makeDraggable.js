@@ -36,6 +36,8 @@ function makeDraggable(elements){
         event.preventDefault();
 
         var dest= event.target.closest("li");
+        setDataTopics(getDataTopics());
+        if(isInsideID(startE.getAttribute("id"), dest.getAttribute("id"))) return;
         dest.className="selected";
     }
 
@@ -133,19 +135,37 @@ function makeDraggable(elements){
         }
     }
 
+    function isInsideID(start_id, dest_id){
+        var data= new Array();
+        getSons(start_id, data);
+        return data.includes(dest_id);
+    }
+
+    function getSons(id, data){
+        data.push(id.toString());
+        let x= findTopic(id);
+        x=x.subtopics;
+        for(let i=0; i<x.length; i++){
+            getSons(x[i].id, data);
+        }
+    }
+
     /*
         The drop event is fired when an element or text selection is dropped on a valid drop target.
     */
     function drop(event){
-        document.getElementById("errorTopicMsg").textContent="";
         event.stopImmediatePropagation();
+        document.getElementById("errorTopicMsg").textContent="";
         var dest = event.target.closest("li");
-        var txt= "Do you wanna move topic "+ startE.getAttribute("id") + " into topic "+ dest.getAttribute("id")+ "?";
+        var start_id=startE.getAttribute("id");
+        var dest_id=dest.getAttribute("id");
+        if(isInsideID(start_id,dest_id)) return;
+        var txt= "Do you wanna move topic "+ start_id + " into topic "+ dest_id+ "?";
 
         if(confirm(txt)){
             reset(dest);
             setDataTopics(getDataTopics());
-            let x= updateTree(startE.getAttribute("id"), dest.getAttribute("id"));
+            let x= updateTree(start_id, dest_id);
             if(x===-1){
                 document.getElementById("errorTopicMsg").textContent="You cannot move this topic here. Size limit reached.";
             }

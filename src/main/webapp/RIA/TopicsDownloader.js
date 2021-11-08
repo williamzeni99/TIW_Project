@@ -99,6 +99,7 @@
             if(modified.length>0){
                 document.getElementById("storeData").closest("div").className="normaldiv";
                 document.getElementById("storeData").addEventListener("click", (e)=>{
+                    e.stopImmediatePropagation();
                     sendJsonObject("POST", "../StoreData", modified, function (req){
                         if(req.readyState==XMLHttpRequest.DONE){
                             var message=req.responseText;
@@ -106,6 +107,7 @@
                             switch (req.status) {
                                 case 200: //ok
                                     pageeditor.refresh();
+                                    window.alert("Your changes were correctly saved.");
                                     break;
                                 case 400: // bad request
                                     document.getElementById("errorStoreMsg").textContent = message;
@@ -162,6 +164,14 @@
         this.addButtonClick= function (){
             document.getElementById("sendButton").addEventListener('click', (e) => {
                 e.preventDefault();
+                e.stopImmediatePropagation();
+
+                if(modified.length>0){
+                    if(!confirm("You have changes unsaved. Do you want to proceed anyway? This changes will be lost.")){
+                        return;
+                    }
+                }
+
                 var form = self.formContainer;
                 if (form.checkValidity()) {
                     sendFormData("POST", '../AddTopicJS', self.formContainer,
@@ -203,6 +213,7 @@
             this.fillOption();
             document.getElementById("topicName").textContent="";
         }
+
     }
 
     function logoutAction(){
