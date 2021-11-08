@@ -15,6 +15,11 @@
     function getChanges(){
         return modified;
     }
+
+    function resetChanges(){
+        modified=new Array();
+    }
+
     function getDataTopics(){
         return dataTopics;
     }
@@ -32,11 +37,11 @@
         return data.includes(dest_id);
     }
 
-    /**It returns a linear array with all the sons ids*/
+    /**Fill a linear array 'data' with all the startObj sons ids*/
     function getSons(startObj, data){
-        data.push(startObj.id.toString());
+        data.push(startObj.id);
         startObj=startObj.subtopics;
-        for(let i=0; i<startObj.length; i++){
+        for(let i=0; startObj!=null && i<startObj.length ; i++){
             getSons(startObj[i].id, data);
         }
     }
@@ -56,15 +61,15 @@
         return x[x.length - 1];
     }
 
-    function updateTree(startObj, destObj) {
+    function updateTree(start_id, dest_id) {
+        let startObj=findTopic(start_id);
+        let destObj=findTopic(dest_id);
         let x= moveDest(startObj, destObj);
         if(x<0) return x;
         let data=findTopic(Math.floor(parseInt(startObj.id)/10)); //todo check this part
         let dataX=data.subtopics;
         dataX.splice(getLastDigit(startObj.id)-1, 1);
         reorderIds(data);
-        let start_id=startObj.id;
-        let dest_id=destObj.id;
         pushChange({start_id,dest_id});
     }
 

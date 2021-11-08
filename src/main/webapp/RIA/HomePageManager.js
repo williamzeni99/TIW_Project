@@ -31,18 +31,18 @@
         this.topicContainer= topiccontainerElement;
 
         this.show=function (){
-            this.self=this;
+            let self=this;
             sendFormData("GET", "../DownloadTopicsJS", null, function (req){
                 if (req.readyState == 4 && req.status == 200){
                     let topics=JSON.parse(req.responseText);
                     setDataTopics(topics);
                     if(topics.subtopics.length === 0){
-                        this.self.topicContainer.textContent="No Topics yet"; //todo check this part
+                        self.topicContainer.textContent="No Topics yet"; //todo check this part
                         return;
                     }
 
                     let ul= document.createElement("ul");
-                    this.self.topicContainer.appendChild(ul);
+                    self.topicContainer.appendChild(ul);
                     for(let i=0; i<topics.subtopics.length; i++){
                         printer(topics.subtopics[i],ul);
                     }
@@ -123,36 +123,17 @@
 
     } //It works fine
 
-    function addTopicForm(formId, pageEditor){
-        var self=this;
+    function addTopicForm(formId){
+        let self=this;
         this.formContainer= formId;
-        this.pageEditor= pageEditor;
         this.selector= document.getElementById("idFather");
-        this.fillOption= function (){
-            sendFormData("GET", "../GetOptionsTopicJS", self.formContainer, function (req){
-                if(req.readyState==XMLHttpRequest.DONE && req.status==200){
-                    var ids=JSON.parse(req.responseText);
-                    var option= document.createElement("option");
-                    option.text="/";
-                    option.value="0";
-                    self.selector.appendChild(option);
-                    for (let i=0; i<ids.length; i++){
-                        option= document.createElement("option");
-                        option.text=ids[i];
-                        option.value=ids[i];
-                        self.selector.appendChild(option);
-                    }
-                }
-
-            }, false);
-        }
 
         this.addButtonClick= function (){
             document.getElementById("sendButton").addEventListener('click', (e) => {
                 e.preventDefault();
                 e.stopImmediatePropagation();
 
-                if(modified.length>0){
+                if(getChanges().length>0){
                     if(!confirm("You have changes unsaved. Do you want to proceed anyway? This changes will be lost.")){
                         return;
                     }
@@ -163,10 +144,10 @@
                     sendFormData("POST", '../AddTopicJS', self.formContainer,
                         function (x) {
                             if (x.readyState == XMLHttpRequest.DONE) {
-                                var message = x.responseText;
+                                let message = x.responseText;
                                 switch (x.status) {
                                     case 200: //ok
-                                        self.pageEditor.refresh();
+                                        RESET(true);
                                         break;
                                     case 400: // bad request
                                         document.getElementById("errorMsg").textContent = message;
@@ -193,12 +174,55 @@
             });
         }
 
-        this.reset= function (){
+        this.reset= function (remote){
             document.getElementById("errorMsg").textContent="";
             document.getElementById("idFather").innerHTML='';
-            this.fillOption();
             document.getElementById("topicName").textContent="";
+            if(remote===true){
+                RemoteFillOption();
+            }
+            else{
+                LocalFillOption();
+            }
         }
+
+        function RemoteFillOption (){
+            sendFormData("GET", "../GetOptionsTopicJS", self.formContainer, function (req){
+                if(req.readyState==XMLHttpRequest.DONE && req.status==200){
+                    let ids=JSON.parse(req.responseText);
+
+                    for (let i=0; i<ids.length; i++){
+                        let option= document.createElement("option");
+                        option.text=ids[i];
+                        option.value=ids[i];
+                        self.selector.appendChild(option); //todo check this part
+                    }
+                }
+
+            }, false);
+        }
+
+        function LocalFillOption(){
+            let ids=new Array();
+            getSons(getDataTopics(), ids);
+
+            for (let i=0; i<ids.length; i++){
+                let option= document.createElement("option");
+                option.text=ids[i];
+                option.value=ids[i];
+                self.selector.appendChild(option); //todo check this part
+            }
+        }
+
+        this.hide= function (bool){
+            if(bool===true){
+                self.formContainer.className="hide";
+            }
+            else {
+                self.formContainer.className="";
+            }
+        }
+
 
     }
 
@@ -221,8 +245,8 @@
             topicContainer= new topicShower(document.getElementById("topics"));
             topicContainer.show();
 
-            addForm=new addTopicForm(document.getElementById("formAdd"), this);
-            addForm.fillOption();
+            addForm=new addTopicForm(document.getElementById("formAdd"));
+            addForm.reset(true);
             addForm.addButtonClick();
 
             logout= new logoutAction(document.getElementById("logoutButton"));
@@ -230,12 +254,14 @@
         }
 
         this.refresh=function (){
-            addForm.reset();
+            addForm.reset(true);
             topicContainer.RemoteReset();
+            resetChanges();
         }
 
         this.resetLocally=function (){
             topicContainer.LocalReset();
+            addForm.reset(false);
         }
 
     }

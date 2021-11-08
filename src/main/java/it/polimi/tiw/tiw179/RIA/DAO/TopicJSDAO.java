@@ -50,6 +50,7 @@ public class TopicJSDAO {
         while (set.next()){
             ids.add(set.getInt("id"));
         }
+        ids.add(0);
         return ids;
 
     }

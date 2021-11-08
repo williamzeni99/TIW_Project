@@ -64,7 +64,7 @@ function makeDraggable(elements){
 
         if(confirm(txt)){
             reset(dest);
-            let x= updateTree(startE, dest);
+            let x= updateTree(start_id, dest_id);
             if(x===-1){
                 document.getElementById("errorTopicMsg").textContent="You cannot move this topic here. Size limit reached.";
             }
