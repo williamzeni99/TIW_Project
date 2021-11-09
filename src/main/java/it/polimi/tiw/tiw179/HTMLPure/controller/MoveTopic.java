@@ -35,7 +35,13 @@ public class MoveTopic extends HttpServlet {
         }
         TopicDAO dao= new TopicDAO(connection);
         ArrayList<Integer> topiclist;
+        ArrayList<Integer> ids= new ArrayList<>();
+        ids.add(Integer.parseInt(id));
         try {
+            if(!dao.idExist(ids)){
+                response.sendError(HttpServletResponse.SC_NOT_FOUND, ErrorMessage.TopicNotFound.getMessage());
+                return;
+            }
             topiclist= dao.getTopicsList(Integer.parseInt(id));
         } catch (SQLException e) {
             response.sendError(HttpServletResponse.SC_INTERNAL_SERVER_ERROR, ErrorMessage.QueryNotGood.getMessage());

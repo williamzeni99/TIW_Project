@@ -65,6 +65,10 @@ public class TopicDAO {
         return pstatement.executeQuery();
     }
 
+    public boolean isMySon(int idSon, int idFather) throws SQLException {
+        return getTopicsList(idFather).contains(idSon);
+    }
+
     /**It returns an arraylist of all father's subtopics*/
     public ArrayList<Integer> getTopicsList(int idFather) throws SQLException {
         ArrayList<Integer> topiclist= new ArrayList<>();

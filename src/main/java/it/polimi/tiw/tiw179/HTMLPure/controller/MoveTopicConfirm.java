@@ -26,26 +26,29 @@ public class MoveTopicConfirm extends HttpServlet {
         TopicDAO topicDAO= new TopicDAO(connection);
         String id = request.getParameter("idToMove");
         String idW = request.getParameter("idWhereToMove");
-        if(Utilities.isGood(id) && Utilities.isGood(idW)){
-            try {
-                ArrayList<Integer> ids= new ArrayList<>();
-                ids.add(Integer.parseInt(id));
-                ids.add(Integer.parseInt(idW));
-                if(topicDAO.idExist(ids)){
-                    topicDAO.moveTopic(Integer.parseInt(id),Integer.parseInt(idW));
-                    String path = getServletContext().getContextPath() + "/LoadHome";
-                    response.sendRedirect(path);
-                    return;
-                }
-                else{
-                    response.sendError(HttpServletResponse.SC_INTERNAL_SERVER_ERROR, ErrorMessage.TopicNotFound.getMessage());
-                }
-            } catch (SQLException e) {
-                response.sendError(HttpServletResponse.SC_INTERNAL_SERVER_ERROR, ErrorMessage.QueryNotGood.getMessage());
+        if(!Utilities.isGood(id) && !Utilities.isGood(idW)){
+            response.sendError(HttpServletResponse.SC_INTERNAL_SERVER_ERROR, ErrorMessage.TopicNotInt.getMessage());
+            return;
+        }
+
+        try {
+            ArrayList<Integer> ids= new ArrayList<>();
+            ids.add(Integer.parseInt(id));
+            ids.add(Integer.parseInt(idW));
+            if(!topicDAO.idExist(ids)){
+                response.sendError(HttpServletResponse.SC_INTERNAL_SERVER_ERROR, ErrorMessage.TopicNotFound.getMessage());
+                return;
             }
 
-        }else{
-            response.sendError(HttpServletResponse.SC_INTERNAL_SERVER_ERROR, ErrorMessage.TopicNotInt.getMessage());
+            if(topicDAO.isMySon(ids.get(0), ids.get(1))){
+                response.sendError(HttpServletResponse.SC_FORBIDDEN, ErrorMessage.CantMoveinSon.getMessage());
+            }
+
+            topicDAO.moveTopic(Integer.parseInt(id),Integer.parseInt(idW));
+            String path = getServletContext().getContextPath() + "/LoadHome";
+            response.sendRedirect(path);
+        } catch (SQLException e) {
+            response.sendError(HttpServletResponse.SC_INTERNAL_SERVER_ERROR, ErrorMessage.QueryNotGood.getMessage());
         }
     }
 

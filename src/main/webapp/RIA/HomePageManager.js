@@ -56,7 +56,7 @@
         this.setStoreButton=function (){
             document.getElementById("storeData").addEventListener("click", (e)=>{
                 e.stopImmediatePropagation();
-                sendJsonObject("POST", "../StoreData", getChanges(), function (req){
+                sendJsonObject("POST", "../StoreDataJS", getChanges(), function (req){
                     if(req.readyState==XMLHttpRequest.DONE){
                         let message=req.responseText;
 

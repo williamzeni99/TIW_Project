@@ -21,7 +21,7 @@ import java.util.Collection;
 
 @WebServlet(name = "StoreData", value = "/StoreData")
 @MultipartConfig
-public class StoreData extends HttpServlet {
+public class StoreDataJS extends HttpServlet {
     private Connection connection;
     private Gson gson;
 

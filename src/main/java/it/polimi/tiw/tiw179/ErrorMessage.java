@@ -12,6 +12,7 @@ public enum ErrorMessage {
     TopicNotInt("The father id is not an integer or is empty"),
     TopicNameMissing("Topic name required"),
     NoChangesDetected("No changes stored because no changes were provided to the server"),
+    CantMoveinSon("Change dropped. You are trying to move a Topic in one of its subtopic"),
     NoMoreTopic("You cannot add more Topic in this section");
 
     private final String message;
