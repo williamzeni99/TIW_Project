@@ -42,6 +42,7 @@ public class MoveTopicConfirm extends HttpServlet {
 
             if(topicDAO.isMySon(ids.get(0), ids.get(1))){
                 response.sendError(HttpServletResponse.SC_FORBIDDEN, ErrorMessage.CantMoveinSon.getMessage());
+                return;
             }
 
             topicDAO.moveTopic(Integer.parseInt(id),Integer.parseInt(idW));

@@ -6,6 +6,10 @@
     color: red;
 }
 
+.errorText{
+    color: red;
+}
+
 .hide{
     display: none;
 }

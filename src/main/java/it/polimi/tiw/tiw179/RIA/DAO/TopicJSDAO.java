@@ -55,15 +55,41 @@ public class TopicJSDAO {
 
     }
 
-    public boolean idExist(ArrayList<Integer> id) throws SQLException {
-        ArrayList<Integer> allids=getTopicIds();
-        allids.add(0);
-        for(int x: id){
-            if(!allids.contains(x)){
-                return false;
+    public boolean idExist(ArrayList<Integer> ids) throws SQLException {
+        String query = "SELECT * from Topic where id=?";
+        PreparedStatement pstatement = connection.prepareStatement(query);
+        ResultSet set;
+        for(int id: ids){
+            if(id!=0){
+                pstatement.setInt(1,id);
+                set= pstatement.executeQuery();
+                if(!set.next()){
+                    return false;
+                }
+
             }
         }
         return true;
+    }
+
+    public boolean isMySon(int idFather, int idSon) throws SQLException {
+        return getTopicsList(idFather).contains(idSon);
+    }
+
+    /**It returns an arraylist of all father's subtopics*/
+    private ArrayList<Integer> getTopicsList(int idFather) throws SQLException {
+        ArrayList<Integer> topiclist= new ArrayList<>();
+        topiclist.add(idFather);
+        getNextTopicIds(idFather, topiclist);
+        return topiclist;
+    }
+
+    private void getNextTopicIds(int idFather, ArrayList<Integer> topiclist) throws SQLException {
+        ResultSet resultSet= getSons(idFather);
+        while(resultSet.next()){
+            topiclist.add(resultSet.getInt("id"));
+            getNextTopicIds(resultSet.getInt("id"), topiclist);
+        }
     }
 
     /**Adds a Topic to the database with their connections in subtopics*/

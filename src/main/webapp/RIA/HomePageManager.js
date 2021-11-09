@@ -69,6 +69,9 @@
                             case 400: // bad request
                                 document.getElementById("errorStoreMsg").textContent = message;
                                 break;
+                            case 403: // forbidden
+                                document.getElementById("errorStoreMsg").textContent = message;
+                                break;
                             case 500: // server error
                                 document.getElementById("errorStoreMsg").textContent = message;
                                 break;

@@ -65,7 +65,7 @@ public class TopicDAO {
         return pstatement.executeQuery();
     }
 
-    public boolean isMySon(int idSon, int idFather) throws SQLException {
+    public boolean isMySon(int idFather, int idSon) throws SQLException {
         return getTopicsList(idFather).contains(idSon);
     }
 
@@ -85,11 +85,18 @@ public class TopicDAO {
         }
     }
 
-    public boolean idExist(ArrayList<Integer> id) throws SQLException {
-        ArrayList<Integer> allids=getTopicsList(0);
-        for(int x: id){
-            if(!allids.contains(x)){
-                return false;
+    public boolean idExist(ArrayList<Integer> ids) throws SQLException {
+        String query = "SELECT * from Topic where id=?";
+        PreparedStatement pstatement = connection.prepareStatement(query);
+        ResultSet set;
+        for(int id: ids){
+            if(id!=0){
+                pstatement.setInt(1,id);
+                set= pstatement.executeQuery();
+                if(!set.next()){
+                    return false;
+                }
+
             }
         }
         return true;

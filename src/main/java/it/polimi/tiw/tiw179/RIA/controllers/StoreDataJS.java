@@ -19,7 +19,7 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.Collection;
 
-@WebServlet(name = "StoreData", value = "/StoreData")
+@WebServlet(name = "StoreDataJS", value = "/StoreDataJS")
 @MultipartConfig
 public class StoreDataJS extends HttpServlet {
     private Connection connection;
@@ -66,6 +66,11 @@ public class StoreDataJS extends HttpServlet {
 
         for(Move x: moves){
             try {
+                if(dao.isMySon(x.getStartId(), x.getDestId())){
+                    response.setStatus(HttpServletResponse.SC_FORBIDDEN);
+                    response.getWriter().println(ErrorMessage.CantMoveinSon.getMessage());
+                    return;
+                }
                 dao.moveTopic(x.getStartId(), x.getDestId());
             } catch (SQLException e) {
                 response.setStatus(HttpServletResponse.SC_INTERNAL_SERVER_ERROR);
