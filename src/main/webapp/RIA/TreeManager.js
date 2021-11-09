@@ -5,7 +5,7 @@
     this.Topic=function (id, name){
         this.id= id;
         this.name=name;
-        this.subtopics= new Array();
+        this.subtopics= new Array(0);
     }
 
     function pushChange(data){
@@ -34,7 +34,16 @@
         if(startObj<0) return false;
         let data= new Array();
         getSons(startObj, data);
-        return data.includes(dest_id);
+        let x= myinclude(data,dest_id);
+        return x;
+    }
+
+    /**Actually it works like array.includes() but I check the correspondence with a simple ==*/
+    function myinclude(array, value){
+        for(const x of array){
+            if (value==x) return true;
+        }
+        return false;
     }
 
     /**Fill a linear array 'data' with all the startObj sons ids*/
@@ -42,7 +51,7 @@
         data.push(startObj.id);
         startObj=startObj.subtopics;
         for(let i=0; startObj!=null && i<startObj.length ; i++){
-            getSons(startObj[i].id, data);
+            getSons(startObj[i], data);
         }
     }
 
@@ -80,7 +89,7 @@
         let newTopic= new Topic(newId, startObj.name);
         destObj.subtopics[getLastDigit(newTopic.id)-1]=newTopic;
         for(let i=0; i<9 && startObj.subtopics[i]!=null; i++){
-            moveDest(startObj.subtopics[i].id, newTopic.id);
+            moveDest(startObj.subtopics[i], newTopic);
         }
     }
 

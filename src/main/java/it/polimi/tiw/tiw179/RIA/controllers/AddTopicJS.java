@@ -50,6 +50,7 @@ public class AddTopicJS extends HttpServlet {
         if(!Utilities.isGood(idFather)){
             response.setStatus(HttpServletResponse.SC_BAD_REQUEST);
             response.getWriter().println(ErrorMessage.TopicNotInt.getMessage());
+            return;
         }
 
         TopicJSDAO topicJSDAO= new TopicJSDAO(connection);

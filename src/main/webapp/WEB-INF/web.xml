@@ -66,6 +66,7 @@
         <servlet-name>DownloadTopicsJS</servlet-name>
         <servlet-name>GetOptionsTopicJS</servlet-name>
         <servlet-name>AddTopicJS</servlet-name>
+        <servlet-name>StoreData</servlet-name>
     </filter-mapping>
 
 </web-app>

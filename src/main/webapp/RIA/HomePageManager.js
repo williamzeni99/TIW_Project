@@ -53,6 +53,33 @@
 
         }
 
+        this.setStoreButton=function (){
+            document.getElementById("storeData").addEventListener("click", (e)=>{
+                e.stopImmediatePropagation();
+                sendJsonObject("POST", "../StoreData", getChanges(), function (req){
+                    if(req.readyState==XMLHttpRequest.DONE){
+                        let message=req.responseText;
+
+                        switch (req.status) {
+                            case 200: //ok
+                                let changes=getChanges(); //todo remove
+                                RESET(true);
+                                window.alert("Your changes were correctly saved.");
+                                break;
+                            case 400: // bad request
+                                document.getElementById("errorStoreMsg").textContent = message;
+                                break;
+                            case 500: // server error
+                                document.getElementById("errorStoreMsg").textContent = message;
+                                break;
+                            default:
+                                break;
+                        }
+                    }
+                });
+            });
+        }
+
         function printer (obj, ul) {
             var node = document.createTextNode(obj.id + ". " + obj.name);
             var li= document.createElement("li");
@@ -84,39 +111,17 @@
 
             makeDraggable(document.getElementsByClassName("draggable"));
             checkStoreDataButton();
-
         }
 
         function checkStoreDataButton(){
+            let changes=getChanges(); //todo remove
             if(getChanges().length>0){
                 document.getElementById("storeData").closest("div").className="normaldiv";
-                document.getElementById("storeData").addEventListener("click", (e)=>{
-                    e.stopImmediatePropagation();
-                    sendJsonObject("POST", "../StoreData", getChanges(), function (req){
-                        if(req.readyState==XMLHttpRequest.DONE){
-                            let message=req.responseText;
-
-                            switch (req.status) {
-                                case 200: //ok
-                                    RESET(true);
-                                    window.alert("Your changes were correctly saved.");
-                                    break;
-                                case 400: // bad request
-                                    document.getElementById("errorStoreMsg").textContent = message;
-                                    break;
-                                case 500: // server error
-                                    document.getElementById("errorStoreMsg").textContent = message;
-                                    break;
-                                default:
-                                    break;
-                            }
-                        }
-
-                    });
-                });
+                addForm.hide(true);
             }
             else{
                 document.getElementById("storeData").closest("div").className="hide";
+                addForm.hide(false);
             }
         }
 
@@ -134,55 +139,51 @@
                 e.stopImmediatePropagation();
 
                 if(getChanges().length>0){
-                    if(!confirm("You have changes unsaved. Do you want to proceed anyway? This changes will be lost.")){
-                        return;
-                    }
+                    window.alert("Permission dined! You have unsaved changes. Save it before adding new topics.");
                 }
-
-                var form = self.formContainer;
-                if (form.checkValidity()) {
-                    sendFormData("POST", '../AddTopicJS', self.formContainer,
-                        function (x) {
-                            if (x.readyState == XMLHttpRequest.DONE) {
-                                let message = x.responseText;
-                                switch (x.status) {
-                                    case 200: //ok
-                                        RESET(true);
-                                        break;
-                                    case 400: // bad request
-                                        document.getElementById("errorMsg").textContent = message;
-                                        break;
-                                    case 401: // unauthorized
-                                        document.getElementById("errorMsg").textContent = message;
-                                        break;
-                                    case 403: //not found
-                                        document.getElementById("errorMsg").textContent = message;
-                                        break;
-                                    case 500: // server error
-                                        document.getElementById("errorMsg").textContent = message;
-                                        break;
-                                    default:
-                                        break;
+                else{
+                    let form = self.formContainer;
+                    if (form.checkValidity()) {
+                        sendFormData("POST", '../AddTopicJS', self.formContainer,
+                            function (x) {
+                                if (x.readyState == XMLHttpRequest.DONE) {
+                                    let message = x.responseText;
+                                    switch (x.status) {
+                                        case 200: //ok
+                                            RESET(true);
+                                            break;
+                                        case 400: // bad request
+                                            document.getElementById("errorMsg").textContent = message;
+                                            break;
+                                        case 401: // unauthorized
+                                            document.getElementById("errorMsg").textContent = message;
+                                            break;
+                                        case 403: //not found
+                                            document.getElementById("errorMsg").textContent = message;
+                                            break;
+                                        case 500: // server error
+                                            document.getElementById("errorMsg").textContent = message;
+                                            break;
+                                        default:
+                                            break;
+                                    }
                                 }
                             }
-                        }
-                    );
-                }
-                else {
-                    form.reportValidity();
+                        );
+                    }
+                    else {
+                        form.reportValidity();
+                    }
                 }
             });
         }
 
-        this.reset= function (remote){
+        this.Reset= function (remote){
             document.getElementById("errorMsg").textContent="";
             document.getElementById("idFather").innerHTML='';
             document.getElementById("topicName").textContent="";
             if(remote===true){
                 RemoteFillOption();
-            }
-            else{
-                LocalFillOption();
             }
         }
 
@@ -202,24 +203,12 @@
             }, false);
         }
 
-        function LocalFillOption(){
-            let ids=new Array();
-            getSons(getDataTopics(), ids);
-
-            for (let i=0; i<ids.length; i++){
-                let option= document.createElement("option");
-                option.text=ids[i];
-                option.value=ids[i];
-                self.selector.appendChild(option); //todo check this part
-            }
-        }
-
         this.hide= function (bool){
             if(bool===true){
-                self.formContainer.className="hide";
+                self.formContainer.closest("div").className="hide";
             }
             else {
-                self.formContainer.className="";
+                self.formContainer.closest("div").className="";
             }
         }
 
@@ -239,14 +228,16 @@
 
     function pageEditor(){
         this.start=function (){
+            resetChanges();
             personalMessage = new UserMessage(sessionStorage.getItem("username"), document.getElementById("username"));
             personalMessage.show();
 
             topicContainer= new topicShower(document.getElementById("topics"));
             topicContainer.show();
+            topicContainer.setStoreButton();
 
             addForm=new addTopicForm(document.getElementById("formAdd"));
-            addForm.reset(true);
+            addForm.Reset(true);
             addForm.addButtonClick();
 
             logout= new logoutAction(document.getElementById("logoutButton"));
@@ -254,14 +245,14 @@
         }
 
         this.refresh=function (){
-            addForm.reset(true);
-            topicContainer.RemoteReset();
             resetChanges();
+            addForm.Reset(true);
+            topicContainer.RemoteReset();
         }
 
         this.resetLocally=function (){
             topicContainer.LocalReset();
-            addForm.reset(false);
+            addForm.Reset(false);
         }
 
     }

@@ -57,7 +57,7 @@ public class StoreData extends HttpServlet {
         Type movesArrayList = new TypeToken<ArrayList<Move>>(){}.getType();
         ArrayList<Move> moves = gson.fromJson(sb.toString(), movesArrayList);
 
-        if(moves.isEmpty()){
+        if(moves==null){
             response.setStatus(HttpServletResponse.SC_BAD_REQUEST);
             response.getWriter().println(ErrorMessage.NoChangesDetected.getMessage());
             return;
