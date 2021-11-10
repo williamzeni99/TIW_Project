@@ -228,8 +228,23 @@
 
         this.addButton= function (){
             this.button.addEventListener("click", (e)=>{
-                sessionStorage.clear();
-                e.target.closest("form").submit(function (){return true});
+                sendFormData("GET", "../LogoutJS", null, function (req) {
+                    let message=req.responseText;
+
+                    switch (req.status) {
+                        case 200: //ok
+                            sessionStorage.clear();
+                            window.location.href = "LoginJS.html";
+                            break;
+                        default: break;
+                    }
+
+                }, false);
+
+
+                //sessionStorage.clear();
+                //window.location.href="LoginJS.html";
+                //e.target.closest("form").submit(function (){window.location.href="LoginJS.html"});
             });
         }
     }

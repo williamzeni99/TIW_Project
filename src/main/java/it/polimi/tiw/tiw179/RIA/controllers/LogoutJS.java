@@ -1,5 +1,7 @@
 package it.polimi.tiw.tiw179.RIA.controllers;
 
+import it.polimi.tiw.tiw179.ErrorMessage;
+
 import javax.servlet.*;
 import javax.servlet.http.*;
 import javax.servlet.annotation.*;
@@ -17,7 +19,7 @@ public class LogoutJS extends HttpServlet {
         HttpSession session= request.getSession();
         if(session!=null){
             session.invalidate();
+            response.setStatus(HttpServletResponse.SC_OK);
         }
-        response.sendRedirect(getServletContext().getContextPath()+"/RIA/LoginJS.html");
     }
 }
