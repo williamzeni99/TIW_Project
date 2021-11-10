@@ -1,5 +1,9 @@
 (function() { // avoid variables ending up in the global scope
 
+    if (sessionStorage.getItem("username") != null) {
+        window.location.href = "HomepageJS.html";
+        return;
+    }
     document.getElementById("loginButton").addEventListener('click', (e) => {
         e.preventDefault();
         var form = e.target.closest("form");

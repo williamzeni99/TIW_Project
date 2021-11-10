@@ -50,7 +50,10 @@ public class MoveTopicConfirm extends HttpServlet {
             response.sendRedirect(path);
         } catch (SQLException e) {
             response.sendError(HttpServletResponse.SC_INTERNAL_SERVER_ERROR, ErrorMessage.QueryNotGood.getMessage());
+        } catch (IllegalArgumentException e){
+            response.sendError(HttpServletResponse.SC_FORBIDDEN,ErrorMessage.NoMoreTopic.getMessage());
         }
+
     }
 
     @Override

@@ -103,7 +103,8 @@ public class TopicDAO {
     }
 
     /**Actually it moves all father's subtopics to a new directory */
-    public void moveTopic(int idToMove, int idWhereToMove) throws SQLException {
+    public void moveTopic(int idToMove, int idWhereToMove) throws SQLException, IllegalArgumentException {
+        int newid=getNextValue(idWhereToMove); //throws illegal argument exception
         String query="Select idFather from Topic where id=?";
         PreparedStatement preparedStatement= connection.prepareStatement(query);
         preparedStatement.setInt(1, idToMove);
@@ -114,7 +115,6 @@ public class TopicDAO {
         //get the father directory that then has to be updated
 
         String query2= "UPDATE Topic SET id = ?, idFather=? WHERE (id = ?)";
-        int newid=getNextValue(idWhereToMove);
         preparedStatement=connection.prepareStatement(query2);
         preparedStatement.setInt(1,newid);
         preparedStatement.setInt(2,idWhereToMove);
@@ -132,7 +132,7 @@ public class TopicDAO {
         while (set.next()){
             String query= "update Topic set id=?, idFather=? where id=?";
             PreparedStatement preparedStatement=connection.prepareStatement(query);
-            int nextid=getNextValue(newId);
+            int nextid=getNextValue(newId); //should never throw exception
             preparedStatement.setInt(1, nextid);
             preparedStatement.setInt(2, newId);
             preparedStatement.setInt(3, set.getInt("id"));
@@ -147,7 +147,7 @@ public class TopicDAO {
             if(set.getInt("id")>idToMove){
                 String query= "update Topic set id=?, idFather=? where id=?";
                 PreparedStatement preparedStatement=connection.prepareStatement(query);
-                int nextid=getNextValue(oldFather);
+                int nextid=getNextValue(oldFather); //should never throw exception
                 preparedStatement.setInt(1, nextid);
                 preparedStatement.setInt(2, oldFather);
                 preparedStatement.setInt(3, set.getInt("id"));

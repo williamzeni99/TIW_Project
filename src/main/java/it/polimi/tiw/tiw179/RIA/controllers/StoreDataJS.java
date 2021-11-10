@@ -57,7 +57,7 @@ public class StoreDataJS extends HttpServlet {
         Type movesArrayList = new TypeToken<ArrayList<Move>>(){}.getType();
         ArrayList<Move> moves = gson.fromJson(sb.toString(), movesArrayList);
 
-        if(moves==null){
+        if(moves==null || moves.isEmpty()){
             response.setStatus(HttpServletResponse.SC_BAD_REQUEST);
             response.getWriter().println(ErrorMessage.NoChangesDetected.getMessage());
             return;
@@ -75,6 +75,10 @@ public class StoreDataJS extends HttpServlet {
             } catch (SQLException e) {
                 response.setStatus(HttpServletResponse.SC_INTERNAL_SERVER_ERROR);
                 response.getWriter().println(ErrorMessage.QueryNotGood.getMessage());
+                return;
+            } catch (IllegalArgumentException e){
+                response.setStatus(HttpServletResponse.SC_FORBIDDEN);
+                response.getWriter().println(ErrorMessage.NoMoreTopic.getMessage());
                 return;
             }
         }
