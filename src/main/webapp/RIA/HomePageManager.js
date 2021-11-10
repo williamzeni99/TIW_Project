@@ -67,13 +67,16 @@
                                 window.alert("Your changes were correctly saved.");
                                 break;
                             case 400: // bad request
-                                document.getElementById("errorStoreMsg").textContent = message;
+                                RESET(true);
+                                document.getElementById("errorTopicMsg").textContent = message;
                                 break;
                             case 403: // forbidden
-                                document.getElementById("errorStoreMsg").textContent = message;
+                                RESET(true);
+                                document.getElementById("errorTopicMsg").textContent = message;
                                 break;
                             case 500: // server error
-                                document.getElementById("errorStoreMsg").textContent = message;
+                                RESET(true);
+                                document.getElementById("errorTopicMsg").textContent = message;
                                 break;
                             default:
                                 break;
@@ -100,12 +103,14 @@
 
         this.RemoteReset=function () {
             this.topicContainer.innerHTML='';
+            document.getElementById("errorTopicMsg").textContent="";
             checkStoreDataButton();
             this.show();
         }
 
         this.LocalReset= function (){
             this.topicContainer.innerHTML='';
+            //document.getElementById("errorTopicMsg").textContent="";
             let ul= document.createElement("ul");
             this.topicContainer.appendChild(ul);
             for(let i=0; i<getDataTopics().subtopics.length; i++){
